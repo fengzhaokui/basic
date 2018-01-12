@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.memcardmxMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.memcardmx">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="RQ" jdbcType="TIMESTAMP" property="rq" />
+    <result column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <result column="CZHYID" jdbcType="DECIMAL" property="czhyid" />
+    <result column="CZFS" jdbcType="DECIMAL" property="czfs" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="JE" jdbcType="DECIMAL" property="je" />
+    <result column="CZJE" jdbcType="DECIMAL" property="czje" />
+    <result column="YWLX" jdbcType="DECIMAL" property="ywlx" />
+    <result column="GRANTSTATUS" jdbcType="DECIMAL" property="grantstatus" />
+    <result column="ZZZCID" jdbcType="DECIMAL" property="zzzcid" />
+    <result column="OLDID" jdbcType="DECIMAL" property="oldid" />
+    <result column="JLBH" jdbcType="DECIMAL" property="jlbh" />
+    <result column="SKTNO" jdbcType="VARCHAR" property="sktno" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, RQ, HYID, PHONE, JE, YWLX,CZJE,CZHYID,CZFS,GRANTSTATUS,ZZZCID,OLDID,JLBH,SKTNO
+  </sql>
+<!--退货用到的获取原订单-->
+  <select id="selectOldmx" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEMCARDMX
+    where  YWLX=2 AND JE>0 AND OLDID IS  NULL  AND SKTNO= #{sktno,jdbcType=VARCHAR} AND JLBH= #{jlbh,jdbcType=DECIMAL}  order BY ID DESC
+  </select>
+
+  <select id="sumByhyidywlx"  resultType="DECIMAL">
+    select
+    SUM(JE)
+    from MEMCARDMX
+    where HYID = #{hyid,jdbcType=DECIMAL}
+        AND YWLX in
+        <foreach collection="ywlxlist" item="stu" open="("
+                 separator="," close=")">
+          #{stu}
+        </foreach>
+  </select>
+
+  <select id="SelectByhyidywlx"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEMCARDMX
+    where HYID = #{hyid,jdbcType=DECIMAL}
+    AND YWLX in
+    <foreach collection="ywlxlist" item="stu" open="("
+             separator="," close=")">
+      #{stu}
+    </foreach>
+  </select>
+
+  <select id="selectByhyidpage" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from (select A.*,rownum rn from MEMCARDMX A where HYID=#{hyid,jdbcType=DECIMAL} AND rownum <![CDATA[ <= ]]> #{end,jdbcType=DECIMAL} ORDER BY ID DESC) where  rn<![CDATA[ >= ]]>#{start,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByhyidpage1" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List" />
+    from (select *, rownum rn from MEMCARDMX  where HYID=#{0} AND rownum <![CDATA[ <= ]]> #{2} ORDER BY JYSJ DESC) where  rn<![CDATA[ >= ]]>#{1}
+  </select>
+
+  <select id="selectByhyid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEMCARDMX
+    where HYID = #{hyid,jdbcType=DECIMAL} order BY ID DESC
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEMCARDMX
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MEMCARDMX
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.memcardmx">
+    insert into MEMCARDMX (ID, RQ, HYID, 
+      PHONE, JE, YWLX)
+    values (#{id,jdbcType=DECIMAL}, #{rq,jdbcType=TIMESTAMP}, #{hyid,jdbcType=DECIMAL}, 
+      #{phone,jdbcType=VARCHAR}, #{je,jdbcType=DECIMAL}, #{ywlx,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.memcardmx">
+    <!-- 自动递增id -->
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+      select max(id)+1 as id from MEMCARDMX
+    </selectKey>
+    insert into MEMCARDMX
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="rq != null">
+        RQ,
+      </if>
+      <if test="hyid != null">
+        HYID,
+      </if>
+      <if test="czhyid != null">
+        CZHYID,
+      </if>
+      <if test="czfs != null">
+        CZFS,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="je != null">
+        JE,
+      </if>
+      <if test="czje != null">
+        CZJE,
+      </if>
+      <if test="ywlx != null">
+        YWLX,
+      </if>
+      <if test="grantstatus != null">
+        GRANTSTATUS,
+      </if>
+      <if test="zzzcid != null">
+        ZZZCID,
+      </if>
+      <if test="sktno != null">
+        SKTNO,
+      </if>
+      <if test="jlbh != null">
+        JLBH,
+      </if>
+      <if test="oldid != null">
+        OLDID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="rq != null">
+        #{rq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hyid != null">
+        #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="czhyid != null">
+        #{czhyid,jdbcType=DECIMAL},
+      </if>
+      <if test="czfs != null">
+        #{czfs,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="je != null">
+        #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="czje != null">
+        #{czje,jdbcType=DECIMAL},
+      </if>
+      <if test="ywlx != null">
+        #{ywlx,jdbcType=DECIMAL},
+      </if>
+      <if test="grantstatus != null">
+        #{grantstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="zzzcid != null">
+        #{zzzcid,jdbcType=DECIMAL},
+      </if>
+      <if test="sktno != null">
+        #{sktno,jdbcType=VARCHAR},
+      </if>
+      <if test="jlbh != null">
+        #{jlbh,jdbcType=DECIMAL},
+      </if>
+      <if test="oldid != null">
+        #{oldid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.memcardmx">
+    update MEMCARDMX
+    <set>
+      <if test="rq != null">
+        RQ = #{rq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hyid != null">
+        HYID = #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="je != null">
+        JE = #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="ywlx != null">
+        YWLX = #{ywlx,jdbcType=DECIMAL},
+      </if>
+      <if test="zzzcid != null">
+        ZZZCID = #{zzzcid,jdbcType=DECIMAL},
+      </if>
+      <if test="grantstatus != null">
+        GRANTSTATUS = #{grantstatus,jdbcType=DECIMAL},
+      </if>
+      <if test="sktno != null">
+        SKTNO = #{sktno,jdbcType=VARCHAR},
+      </if>
+      <if test="jlbh != null">
+        JLBH = #{jlbh,jdbcType=DECIMAL},
+      </if>
+      <if test="oldid != null">
+        OLDID = #{oldid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.memcardmx">
+    update MEMCARDMX
+    set RQ = #{rq,jdbcType=TIMESTAMP},
+      HYID = #{hyid,jdbcType=DECIMAL},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      JE = #{je,jdbcType=DECIMAL},
+      YWLX = #{ywlx,jdbcType=DECIMAL},
+       ZZZCID = #{zzzcid,jdbcType=DECIMAL},
+        GRANTSTATUS = #{grantstatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

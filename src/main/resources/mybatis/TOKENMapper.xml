@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.TOKENMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.TOKEN">
+    <id column="TOKENGUID" jdbcType="VARCHAR" property="tokenguid" />
+     <result column="SKTNO" jdbcType="VARCHAR" property="sktno" />
+    <result column="PERSON_ID" jdbcType="DECIMAL" property="personId" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TOKENGUID,SKTNO, PERSON_ID, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TOKEN
+    where TOKENGUID = #{tokenguid,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.TOKEN">
+    insert into TOKEN (TOKENGUID,SKTNO, PERSON_ID, CREATETIME
+      )
+    values (#{tokenguid,jdbcType=VARCHAR},#{sktno,jdbcType=VARCHAR}, #{personId,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+</mapper>

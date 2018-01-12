@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.CITYDEFMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.CITYDEF">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="CITYNAME" jdbcType="VARCHAR" property="cityname" />
+    <result column="CJ" jdbcType="VARCHAR" property="cj" />
+    <result column="FATHERID" jdbcType="DECIMAL" property="fatherid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, CITYNAME, CJ, FATHERID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CITYDEF
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectall" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CITYDEF
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CITYDEF
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.CITYDEF">
+    insert into CITYDEF (ID, CODE, CITYNAME, 
+      CJ, FATHERID)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{cityname,jdbcType=VARCHAR}, 
+      #{cj,jdbcType=VARCHAR}, #{fatherid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.CITYDEF">
+    insert into CITYDEF
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="cityname != null">
+        CITYNAME,
+      </if>
+      <if test="cj != null">
+        CJ,
+      </if>
+      <if test="fatherid != null">
+        FATHERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null">
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="cj != null">
+        #{cj,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null">
+        #{fatherid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.CITYDEF">
+    update CITYDEF
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null">
+        CITYNAME = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="cj != null">
+        CJ = #{cj,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null">
+        FATHERID = #{fatherid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.CITYDEF">
+    update CITYDEF
+    set CODE = #{code,jdbcType=VARCHAR},
+      CITYNAME = #{cityname,jdbcType=VARCHAR},
+      CJ = #{cj,jdbcType=VARCHAR},
+      FATHERID = #{fatherid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

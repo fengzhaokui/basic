@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.MEM_BASEINFOMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.MEM_BASEINFO">
+    <id column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <result column="HYKTYPE" jdbcType="DECIMAL" property="hyktype" />
+    <result column="HYKNO" jdbcType="VARCHAR" property="hykno" />
+    <result column="CDNR" jdbcType="VARCHAR" property="cdnr" />
+    <result column="HYNAME" jdbcType="VARCHAR" property="hyname" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="VALIDDATE" jdbcType="TIMESTAMP" property="validdate" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="EXTERHYID" jdbcType="VARCHAR" property="exterhyid" />
+    <result column="BIRTHDATE" jdbcType="TIMESTAMP" property="birthdate" />
+    <result column="SEX" jdbcType="DECIMAL" property="sex" />
+    <result column="IDCARD" jdbcType="VARCHAR" property="idcard" />
+    <result column="PASSPORT" jdbcType="VARCHAR" property="passport" />
+    <result column="TEACHER_CARD" jdbcType="VARCHAR" property="teacherCard" />
+    <result column="SOLDIER_CARD" jdbcType="VARCHAR" property="soldierCard" />
+    <result column="OPENID" jdbcType="VARCHAR" property="openid" />
+    <result column="THIRDHYID" jdbcType="VARCHAR" property="thirdhyid" />
+    <result column="PHONE_WXTJ" jdbcType="VARCHAR" property="phoneWxtj" />
+    <result column="PHONE_CFTJ" jdbcType="VARCHAR" property="phoneCftj" />
+    <result column="BJ_KTXJ" jdbcType="DECIMAL" property="bjKtxj" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    HYID, HYKTYPE, HYKNO, CDNR, HYNAME, PHONE, VALIDDATE, PASSWORD, STATUS, EXTERHYID, 
+    BIRTHDATE, SEX, IDCARD, PASSPORT, TEACHER_CARD, SOLDIER_CARD, OPENID, THIRDHYID, 
+    PHONE_WXTJ, PHONE_CFTJ, BJ_KTXJ, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEM_BASEINFO
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByopenid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEM_BASEINFO
+    where OPENID = #{openid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByphone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEM_BASEINFO
+    where PHONE = #{phone,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

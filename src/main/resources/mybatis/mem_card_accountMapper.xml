@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.mem_card_accountMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.mem_card_account">
+    <id column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <result column="JE" jdbcType="DECIMAL" property="je" />
+    <result column="FROZENJE" jdbcType="DECIMAL" property="frozenje" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    HYID, JE,FROZENJE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEM_CARD_ACCOUNT
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MEM_CARD_ACCOUNT
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.mem_card_account">
+    insert into MEM_CARD_ACCOUNT (HYID, JE)
+    values (#{hyid,jdbcType=DECIMAL}, #{je,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.mem_card_account">
+    insert into MEM_CARD_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        HYID,
+      </if>
+      <if test="je != null">
+        JE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="je != null">
+        #{je,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.mem_card_account">
+    update MEM_CARD_ACCOUNT
+    <set>
+      <if test="je != null">
+        JE = #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenje != null">
+        FROZENJE = #{frozenje,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.mem_card_account">
+    update MEM_CARD_ACCOUNT
+    set JE = #{je,jdbcType=DECIMAL},
+    FROZENJE = #{frozenje,jdbcType=DECIMAL}
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </update>
+</mapper>

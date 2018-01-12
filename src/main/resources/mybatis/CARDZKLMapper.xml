@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.CARDZKLMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.CARDZKL">
+    <id column="SKFS" jdbcType="DECIMAL" property="skfs" />
+    <result column="ZKL" jdbcType="DECIMAL" property="zkl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SKFS, ZKL
+  </sql>
+  <select id="selectall"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CARDZKL
+    </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CARDZKL
+    where SKFS = #{skfs,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CARDZKL
+    where SKFS = #{skfs,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.CARDZKL">
+    insert into CARDZKL (SKFS, ZKL)
+    values (#{skfs,jdbcType=DECIMAL}, #{zkl,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.CARDZKL">
+    insert into CARDZKL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="skfs != null">
+        SKFS,
+      </if>
+      <if test="zkl != null">
+        ZKL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="skfs != null">
+        #{skfs,jdbcType=DECIMAL},
+      </if>
+      <if test="zkl != null">
+        #{zkl,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.CARDZKL">
+    update CARDZKL
+    <set>
+      <if test="zkl != null">
+        ZKL = #{zkl,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SKFS = #{skfs,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.CARDZKL">
+    update CARDZKL
+    set ZKL = #{zkl,jdbcType=DECIMAL}
+    where SKFS = #{skfs,jdbcType=DECIMAL}
+  </update>
+</mapper>

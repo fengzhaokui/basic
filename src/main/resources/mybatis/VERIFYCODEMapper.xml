@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.VERIFYCODEMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.VERIFYCODE">
+    <id column="SKTNO" jdbcType="VARCHAR" property="sktno" />
+    <id column="SCSJ" jdbcType="TIMESTAMP" property="scsj" />
+    <id column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="SKYID" jdbcType="DECIMAL" property="skyid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SKTNO, SCSJ, PHONE, CODE, SKYID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.VERIFYCODEKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from VERIFYCODE
+    where SKTNO = #{sktno,jdbcType=VARCHAR}
+      and SCSJ = #{scsj,jdbcType=TIMESTAMP}
+      and PHONE = #{phone,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.VERIFYCODEKey">
+    delete from VERIFYCODE
+    where SKTNO = #{sktno,jdbcType=VARCHAR}
+      and SCSJ = #{scsj,jdbcType=TIMESTAMP}
+      and PHONE = #{phone,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.VERIFYCODE">
+    insert into VERIFYCODE (SKTNO, SCSJ, PHONE, 
+      CODE, SKYID)
+    values (#{sktno,jdbcType=VARCHAR}, #{scsj,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{skyid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.VERIFYCODE">
+    insert into VERIFYCODE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sktno != null">
+        SKTNO,
+      </if>
+      <if test="scsj != null">
+        SCSJ,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="skyid != null">
+        SKYID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sktno != null">
+        #{sktno,jdbcType=VARCHAR},
+      </if>
+      <if test="scsj != null">
+        #{scsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="skyid != null">
+        #{skyid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

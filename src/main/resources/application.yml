@@ -1,0 +1,28 @@
+spring:
+   application:
+     name: xbwxapi
+   profiles:
+     active: dev
+
+# mybatis配置
+mybatis:
+  # 配置映射类所在包名
+  type-aliases-package: com.fengzkframework.basic.dao
+  # 配置mapper xml文件所在路径，这里是一个数组
+  mapper-locations:
+#    - mybatis/SKTMapper.xml
+     - mybatis/*Mapper.xml
+
+#aes加解密密钥
+aeskey: "FHhPatHL4DF8link"
+#redis 数据库
+redishost: 192.168.6.43
+
+#每个接口在多少毫秒内最多访问多少次
+apilimitmaxcount: 100
+apilimittimeout: 1000
+
+#log日记
+logging:
+  config: classpath:logback.xml
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.SKTMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.SKT">
+    <id column="SKTNO" jdbcType="VARCHAR" property="sktno" />
+    <result column="DATABASENAME" jdbcType="VARCHAR" property="databasename" />
+    <result column="QSFS" jdbcType="DECIMAL" property="qsfs" />
+    <result column="MAXJLBH" jdbcType="DECIMAL" property="maxjlbh" />
+    <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
+    <result column="SKY" jdbcType="DECIMAL" property="sky" />
+    <result column="CAN_ZK" jdbcType="DECIMAL" property="canZk" />
+    <result column="CAN_TH" jdbcType="DECIMAL" property="canTh" />
+    <result column="CAN_BB" jdbcType="DECIMAL" property="canBb" />
+    <result column="CAN_GZ" jdbcType="DECIMAL" property="canGz" />
+    <result column="CAN_BAR" jdbcType="DECIMAL" property="canBar" />
+    <result column="XSDDID" jdbcType="DECIMAL" property="xsddid" />
+    <result column="MACHINECODE" jdbcType="VARCHAR" property="machinecode" />
+    <result column="SHOPID" jdbcType="DECIMAL" property="shopid" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="IP" jdbcType="VARCHAR" property="ip" />
+    <result column="THIRDPAYUSER" jdbcType="VARCHAR" property="thirdpayuser" />
+    <result column="THIRDPAYPWD" jdbcType="VARCHAR" property="thirdpaypwd" />
+    <result column="MAC1" jdbcType="VARCHAR" property="mac1" />
+    <result column="MAC2" jdbcType="VARCHAR" property="mac2" />
+    <result column="LINKURL" jdbcType="VARCHAR" property="linkurl" />
+    <result column="MONITOR_STATUS" jdbcType="DECIMAL" property="monitorStatus" />
+    <result column="WEIXIN" jdbcType="VARCHAR" property="weixin" />
+    <result column="ALIPAY" jdbcType="VARCHAR" property="alipay" />
+    <result column="BJ_TYZF" jdbcType="DECIMAL" property="bjTyzf" />
+     <result column="MDID" jdbcType="DECIMAL" property="mdid" />
+    <result column="DYFA" jdbcType="DECIMAL" property="dyfa" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SKTNO, DATABASENAME, QSFS, MAXJLBH, GXSJ, SKY, CAN_ZK, CAN_TH, CAN_BB, CAN_GZ, CAN_BAR, 
+     XSDDID, MACHINECODE, SHOPID, STATUS, IP, MAC1, MAC2, LINKURL, MONITOR_STATUS, 
+    WEIXIN, ALIPAY, BJ_TYZF, DYFA,THIRDPAYUSER,THIRDPAYPWD,MDID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SKT
+    where SKTNO = #{sktno,jdbcType=VARCHAR}
+  </select>
+   <select id="selectByMaCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SKT
+    where MACHINECODE = #{macode,jdbcType=VARCHAR}
+  </select>
+ 
+  
+</mapper>

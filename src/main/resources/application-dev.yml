@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  #192.168.28.239:81
+wxserviceurl: "http://192.168.28.239:81/xbapi/weixin/"
+msserviceurl: "http://192.168.28.239:8080/msxfInterface2/"
+msshopcode: 20152389
+ybshopcode: 10016083399
+spring:
+   datasource:
+     driver-class-name: oracle.jdbc.driver.OracleDriver
+     url: jdbc:oracle:thin:@//192.168.28.239:1521/JH
+     username: XBPOS
+     password: XBPOSXBPOS
+   redis:
+     host: 127.0.0.1
+     port: 6379
+
+
