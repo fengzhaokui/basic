@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.SALEPWDMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.SALEPWD">
+    <id column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="MSPASSWORDBJ" jdbcType="DECIMAL" property="mspasswordbj" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    HYID, PASSWORD, MSPASSWORDBJ
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SALEPWD
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SALEPWD
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.SALEPWD">
+    insert into SALEPWD (HYID, PASSWORD, MSPASSWORDBJ
+      )
+    values (#{hyid,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{mspasswordbj,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.SALEPWD">
+    insert into SALEPWD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        HYID,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="mspasswordbj != null">
+        MSPASSWORDBJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mspasswordbj != null">
+        #{mspasswordbj,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.SALEPWD">
+    update SALEPWD
+    <set>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mspasswordbj != null">
+        MSPASSWORDBJ = #{mspasswordbj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.SALEPWD">
+    update SALEPWD
+    set PASSWORD = #{password,jdbcType=VARCHAR},
+      MSPASSWORDBJ = #{mspasswordbj,jdbcType=DECIMAL}
+    where HYID = #{hyid,jdbcType=DECIMAL}
+  </update>
+</mapper>

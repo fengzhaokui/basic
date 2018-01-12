@@ -1,11 +1,13 @@
 package com.fengzkframework.basic.controller;
 
 import com.fengzkframework.basic.aes.AESCrypt;
+import com.fengzkframework.basic.dao.MEM_BASEINFOMapper;
 import com.fengzkframework.basic.domain.RequestData;
 import com.fengzkframework.basic.domain.ResultData;
 import com.fengzkframework.basic.enums.ResultEnum;
 import com.fengzkframework.basic.service.CityServiceImpl;
 import com.fengzkframework.basic.service.HttpService;
+import com.fengzkframework.basic.service.MemBaseInfoServiceImpl;
 import com.fengzkframework.basic.service.SendSmsService;
 import com.fengzkframework.basic.utils.ResultUtil;
 import com.fengzkframework.basic.utils.StringUtil;
@@ -30,6 +32,8 @@ public class JHWXController {
     private SendSmsService smss;
     @Autowired
     CityServiceImpl cs;
+    @Autowired
+    MemBaseInfoServiceImpl mems;
     Logger logger = LoggerFactory.getLogger(JHWXController.class);
     Gson gson = new Gson();
     /**
@@ -54,25 +58,69 @@ public class JHWXController {
         }
     }
 
-
+/*
+获取城市门店列表；
+ */
     @PostMapping(value = "/getcity",produces = "application/json")
     public  ResultData getcity() throws Exception {
         return  cs.GetallCity();
-//        if (rdata != null) {
-//            String data = rdata.getData();
-//            logger.info("收到：" + data);
-//            data = AESCrypt.decryptAES(data);
-//            if(StringUtil.strisnull(data))
-//            {
-//                logger.info("解密失败");
-//                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
-//            }
-//            logger.info("解密后：" + data);
-//            return hs.PostService("getmall",data);
-//        } else {
-//            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
-//        }
     }
+
+    /**
+     * 设置会员密码
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/sethypwd",produces = "application/json;charset=UTF-8")
+    public  ResultData sethypwd(@RequestBody RequestData rdata) throws Exception
+    {
+        if(rdata!=null) {
+            String data=rdata.getData();
+            logger.info("收到："+data);
+            data=AESCrypt.decryptAES( data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return mems.sethypwd(map);
+        }
+        else
+        {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 修改会员密码
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/updatehypwd",produces = "application/json;charset=UTF-8")
+    public  ResultData updatehypwd(@RequestBody RequestData rdata) throws Exception
+    {
+        if(rdata!=null) {
+            String data=rdata.getData();
+            logger.info("收到："+data);
+            data=AESCrypt.decryptAES( data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return mems.updatehypwd(map);
+        }
+        else
+        {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+
     /***
      * 获取会员券变动详情
      * @param rdata
