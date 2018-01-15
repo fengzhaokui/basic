@@ -1,5 +1,7 @@
 package com.fengzkframework.basic.controller;
 
+import com.fengzkframework.basic.dao.MALLDEFMapper;
+import com.fengzkframework.basic.dao.vo.MALLDEF;
 import com.fengzkframework.basic.dao.vo.SKT;
 import com.fengzkframework.basic.dao.vo.TOKEN;
 import com.fengzkframework.basic.domain.ResultData;
@@ -25,19 +27,25 @@ public class HelloController {
     private SktServiceImpl skt;
     @Autowired
     private TokenServiceImpl tokenService;
-
+@Autowired
+    MALLDEFMapper malldefMapper;
     @GetMapping(value = "/say")
     public String say(@RequestParam(value = "id", required = false, defaultValue = "0") Integer myId) {
 //        RedisHelper redis=new RedisHelper();
 //       List<String> keys= redis.GetAllRedisKeys();
-
+        MALLDEF malldef=new MALLDEF();
+        malldef.setYttype(0);
+        malldef.setCityid(2);
+        List<MALLDEF> list=malldefMapper.selectByytandcity2(malldef);
         return "ok";// + myId +keys.toString();
 //        return girlProperties.getCupSize();
     }
 
+
     @GetMapping(value = "/test")
     public String test(@RequestParam(value = "id", required = false, defaultValue = "0") Integer myId) {
-        testintoken();
+        //testintoken();
+
         return "ok";
     }
     @GetMapping(value = "/gettest")

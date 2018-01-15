@@ -40,6 +40,28 @@ public class MemBaseInfoServiceImpl {
 		// TODO Auto-generated method stub
 		return memMapper.selectByphone(phone);
 	}
+	public ResultData ExistPWD(Map<String,String> map)
+	{
+		String openid=map.get("openid");
+		if(StringUtil.strisnull(openid))
+		{
+			return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
+		}
+		MEM_BASEINFO mem_baseinfo=selectByopenid(openid);
+		if(mem_baseinfo==null)
+		{
+			return ResultUtil.error(ResultEnum.NOHY.getCode(),ResultEnum.NOHY.getMsg());
+		}
+		SALEPWD salepwd=salepwdMapper.selectByPrimaryKey(mem_baseinfo.getHyid());
+
+		if(salepwd!=null &&(!StringUtil.strisnull(salepwd.getPassword())))
+		{
+			return ResultUtil.success("true");
+		}
+		else
+			return ResultUtil.success("false");
+
+	}
 
 	/*
 	设置用户密码
@@ -49,9 +71,9 @@ public class MemBaseInfoServiceImpl {
 		String openid=map.get("openid");
 		String pwd=map.get("pwd");
 		if(StringUtil.strisnull(openid)||StringUtil.strisnull(pwd))
-		{
-			return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
-		}
+	{
+		return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
+	}
 		MEM_BASEINFO mem_baseinfo=selectByopenid(openid);
 		if(mem_baseinfo==null)
 		{

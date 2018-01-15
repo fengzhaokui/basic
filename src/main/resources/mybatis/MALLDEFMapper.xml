@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.MALLDEFMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.MALLDEF">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="LASTMODIFIERID" jdbcType="DECIMAL" property="lastmodifierid" />
+    <result column="LASTMODIFIERNAME" jdbcType="VARCHAR" property="lastmodifiername" />
+    <result column="LASTMODIFYDATE" jdbcType="TIMESTAMP" property="lastmodifydate" />
+    <result column="XTCODE" jdbcType="VARCHAR" property="xtcode" />
+    <result column="TM" jdbcType="DECIMAL" property="tm" />
+    <result column="OLD_MDID" jdbcType="VARCHAR" property="oldMdid" />
+    <result column="MDID_PARK" jdbcType="VARCHAR" property="mdidPark" />
+    <result column="MDADDRESS" jdbcType="VARCHAR" property="mdaddress" />
+    <result column="MDPHONE" jdbcType="VARCHAR" property="mdphone" />
+    <result column="BJ_AUTOREG" jdbcType="DECIMAL" property="bjAutoreg" />
+    <result column="YTTYPE" jdbcType="DECIMAL" property="yttype" />
+    <result column="CITYID" jdbcType="DECIMAL" property="cityid" />
+    <result column="CITYNAME" jdbcType="DECIMAL" property="cityname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CODE, NAME, LASTMODIFIERID, LASTMODIFIERNAME, LASTMODIFYDATE, XTCODE, TM, OLD_MDID, 
+    MDID_PARK, MDADDRESS, MDPHONE, BJ_AUTOREG,YTTYPE,CITYID
+  </sql>
+  <select id="selectByytandcity" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MALLDEF
+    <where>
+    <if test="cityid != null">
+      CITYID = #{cityid,jdbcType=DECIMAL}
+    </if>
+    <if test="yttype != null">
+      AND YTTYPE=#{yttype,jdbcType=DECIMAL}
+    </if>
+    </where>
+  </select>
+  <!--多表组合查询-->
+  <select id="selectByytandcity2" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">
+    select
+     M.NAME ,F.CITYNAME||C.CITYNAME CITYNAME,M.CODE,M.CITYID
+    from MALLDEF M,CITYDEF C,CITYDEF F
+    <where>
+      M.CITYID=C.ID AND C.fatherid=F.ID
+      <if test="cityid != null">
+       AND CITYID = #{cityid,jdbcType=DECIMAL}
+      </if>
+      <if test="yttype != null">
+        AND YTTYPE=#{yttype,jdbcType=DECIMAL}
+      </if>
+    </where>
+
+  </select>
+  <!--<select id="selectByytandcity" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">-->
+    <!--select   CITYID = #{cityid,jdbcType=DECIMAL} AND YTTYPE=#{yttype,jdbcType=DECIMAL}-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from MALLDEF-->
+    <!--where ID = #{id,jdbcType=DECIMAL}-->
+  <!--</select>-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MALLDEF
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from MALLDEF
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF">
+    insert into MALLDEF (ID, CODE, NAME, 
+      LASTMODIFIERID, LASTMODIFIERNAME, LASTMODIFYDATE, 
+      XTCODE, TM, OLD_MDID, 
+      MDID_PARK, MDADDRESS, MDPHONE, 
+      BJ_AUTOREG)
+    values (#{id,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{lastmodifierid,jdbcType=DECIMAL}, #{lastmodifiername,jdbcType=VARCHAR}, #{lastmodifydate,jdbcType=TIMESTAMP}, 
+      #{xtcode,jdbcType=VARCHAR}, #{tm,jdbcType=DECIMAL}, #{oldMdid,jdbcType=VARCHAR}, 
+      #{mdidPark,jdbcType=VARCHAR}, #{mdaddress,jdbcType=VARCHAR}, #{mdphone,jdbcType=VARCHAR}, 
+      #{bjAutoreg,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF">
+    insert into MALLDEF
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="lastmodifierid != null">
+        LASTMODIFIERID,
+      </if>
+      <if test="lastmodifiername != null">
+        LASTMODIFIERNAME,
+      </if>
+      <if test="lastmodifydate != null">
+        LASTMODIFYDATE,
+      </if>
+      <if test="xtcode != null">
+        XTCODE,
+      </if>
+      <if test="tm != null">
+        TM,
+      </if>
+      <if test="oldMdid != null">
+        OLD_MDID,
+      </if>
+      <if test="mdidPark != null">
+        MDID_PARK,
+      </if>
+      <if test="mdaddress != null">
+        MDADDRESS,
+      </if>
+      <if test="mdphone != null">
+        MDPHONE,
+      </if>
+      <if test="bjAutoreg != null">
+        BJ_AUTOREG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifierid != null">
+        #{lastmodifierid,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmodifiername != null">
+        #{lastmodifiername,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifydate != null">
+        #{lastmodifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xtcode != null">
+        #{xtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tm != null">
+        #{tm,jdbcType=DECIMAL},
+      </if>
+      <if test="oldMdid != null">
+        #{oldMdid,jdbcType=VARCHAR},
+      </if>
+      <if test="mdidPark != null">
+        #{mdidPark,jdbcType=VARCHAR},
+      </if>
+      <if test="mdaddress != null">
+        #{mdaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mdphone != null">
+        #{mdphone,jdbcType=VARCHAR},
+      </if>
+      <if test="bjAutoreg != null">
+        #{bjAutoreg,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF">
+    update MALLDEF
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifierid != null">
+        LASTMODIFIERID = #{lastmodifierid,jdbcType=DECIMAL},
+      </if>
+      <if test="lastmodifiername != null">
+        LASTMODIFIERNAME = #{lastmodifiername,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmodifydate != null">
+        LASTMODIFYDATE = #{lastmodifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="xtcode != null">
+        XTCODE = #{xtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tm != null">
+        TM = #{tm,jdbcType=DECIMAL},
+      </if>
+      <if test="oldMdid != null">
+        OLD_MDID = #{oldMdid,jdbcType=VARCHAR},
+      </if>
+      <if test="mdidPark != null">
+        MDID_PARK = #{mdidPark,jdbcType=VARCHAR},
+      </if>
+      <if test="mdaddress != null">
+        MDADDRESS = #{mdaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mdphone != null">
+        MDPHONE = #{mdphone,jdbcType=VARCHAR},
+      </if>
+      <if test="bjAutoreg != null">
+        BJ_AUTOREG = #{bjAutoreg,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF">
+    update MALLDEF
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      LASTMODIFIERID = #{lastmodifierid,jdbcType=DECIMAL},
+      LASTMODIFIERNAME = #{lastmodifiername,jdbcType=VARCHAR},
+      LASTMODIFYDATE = #{lastmodifydate,jdbcType=TIMESTAMP},
+      XTCODE = #{xtcode,jdbcType=VARCHAR},
+      TM = #{tm,jdbcType=DECIMAL},
+      OLD_MDID = #{oldMdid,jdbcType=VARCHAR},
+      MDID_PARK = #{mdidPark,jdbcType=VARCHAR},
+      MDADDRESS = #{mdaddress,jdbcType=VARCHAR},
+      MDPHONE = #{mdphone,jdbcType=VARCHAR},
+      BJ_AUTOREG = #{bjAutoreg,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

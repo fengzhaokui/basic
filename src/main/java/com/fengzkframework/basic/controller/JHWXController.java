@@ -1,14 +1,14 @@
 package com.fengzkframework.basic.controller;
 
 import com.fengzkframework.basic.aes.AESCrypt;
+import com.fengzkframework.basic.dao.MALLDEFMapper;
 import com.fengzkframework.basic.dao.MEM_BASEINFOMapper;
+import com.fengzkframework.basic.dao.vo.MALLDEF;
+import com.fengzkframework.basic.domain.RequestCardData;
 import com.fengzkframework.basic.domain.RequestData;
 import com.fengzkframework.basic.domain.ResultData;
 import com.fengzkframework.basic.enums.ResultEnum;
-import com.fengzkframework.basic.service.CityServiceImpl;
-import com.fengzkframework.basic.service.HttpService;
-import com.fengzkframework.basic.service.MemBaseInfoServiceImpl;
-import com.fengzkframework.basic.service.SendSmsService;
+import com.fengzkframework.basic.service.*;
 import com.fengzkframework.basic.utils.ResultUtil;
 import com.fengzkframework.basic.utils.StringUtil;
 import com.google.gson.Gson;
@@ -34,6 +34,8 @@ public class JHWXController {
     CityServiceImpl cs;
     @Autowired
     MemBaseInfoServiceImpl mems;
+   @Autowired
+    MallDefServiceImpl mallDefService;
     Logger logger = LoggerFactory.getLogger(JHWXController.class);
     Gson gson = new Gson();
     /**
@@ -65,7 +67,29 @@ public class JHWXController {
     public  ResultData getcity() throws Exception {
         return  cs.GetallCity();
     }
+   /*
+   该会员是否已经设置密码
+    */
+    @PostMapping(value = "/existpwd",produces = "application/json")
+    public  ResultData ExistPWD(@RequestBody RequestData rdata) throws Exception {
+        if(rdata!=null) {
+            String data=rdata.getData();
+            logger.info("收到："+data);
+            data=AESCrypt.decryptAES( data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return mems.ExistPWD(map);
+        }
+        else
+        {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(),ResultEnum.UNKONW_ERROR.getMsg());
+        }
 
+    }
     /**
      * 设置会员密码
      * @param rdata
@@ -423,7 +447,9 @@ public class JHWXController {
                 return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
             }
             logger.info("解密后：" + data);
-            return hs.PostService("getmall",data);
+            MALLDEF def = gson.fromJson(data, MALLDEF.class);
+            return ResultUtil.success( mallDefService.selectByytandcity2(def));
+           // return hs.PostService("getmall",data);
         } else {
             return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
         }
