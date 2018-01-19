@@ -81,4 +81,11 @@ public class HelloController {
 
         return ResultUtil.success(skt.selectByPrimaryKey(sktno.getSktno()));
     }
+    @PostMapping(value="/skt1",produces = "application/json")
+//    public ResultData<SKT> postskt(@RequestBody SKT sktno) throws Exception
+    public ResultData<SKT> postskt1(@RequestBody SKT sktno) throws Exception
+    {
+
+        return ResultUtil.success(skt.selectByPrimaryKey(sktno.getSktno()));
+    }
 }

@@ -96,7 +96,7 @@ public class AESCrypt {
             Cipher cipher = Cipher.getInstance(AESTYPE); 
             cipher.init(Cipher.DECRYPT_MODE, key); 
             decrypt = cipher.doFinal(Base64.decodeBase64(encryptData));
-            str=new String(decrypt).trim();
+            str=new String(decrypt,"UTF-8").trim();
         }catch(Exception e){ 
             e.printStackTrace(); 
         }

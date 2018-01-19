@@ -109,6 +109,7 @@ public class MemCardController {
             indata.setOrderid(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+ StringUtil.randomString(6));
            int paytype=indata.getCzfs()+1;
             indata.setPaytype(String.valueOf(paytype));
+            indata.setGoodsname("购物卡");
             ResultData paydata = payService.cardpay(indata);
             if (paydata.getRetcode().equals("0")) {
                 String paymsdata = AESCrypt.decryptAES(paydata.getData().toString());

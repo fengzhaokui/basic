@@ -20,6 +20,8 @@ public class MemBaseInfoServiceImpl {
 	private MEM_BASEINFOMapper memMapper;
 	@Autowired
 	private SALEPWDMapper salepwdMapper;
+	@Autowired
+	PayService payService;
 
 	public MEM_BASEINFO selectByPrimaryKey(Long hyid) {
 		// TODO Auto-generated method stub
@@ -122,6 +124,12 @@ public class MemBaseInfoServiceImpl {
 		{
 			return ResultUtil.error(ResultEnum.PWDISERROR.getCode(),ResultEnum.PWDISERROR.getMsg());
 		}
+		//修改马上密码；
+
+		ResultData mdata=payService.wetpaypwdchg(openid,pwd);
+		if (!(mdata.getRetcode().equals("0"))) {
+			return ResultUtil.error(ResultEnum.UPPWDFAIL.getCode(),ResultEnum.UPPWDFAIL.getMsg());
+		}
 		salepwd.setPassword(pwd);
 		int num=salepwdMapper.updateByPrimaryKeySelective(salepwd);
 		if(num>0)
@@ -129,6 +137,6 @@ public class MemBaseInfoServiceImpl {
 			return ResultUtil.success("");
 		}
 		else
-			return ResultUtil.error(ResultEnum.SETPWDFAIL.getCode(),ResultEnum.SETPWDFAIL.getMsg());
+			return ResultUtil.error(ResultEnum.UPPWDFAIL.getCode(),ResultEnum.UPPWDFAIL.getMsg());
 	}
 }

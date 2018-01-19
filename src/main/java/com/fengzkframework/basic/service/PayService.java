@@ -60,7 +60,7 @@ public class PayService {
         }
         map.put("partnerName","佳惠");
         map.put("orderId",indata.getOrderid());
-        map.put("goodsName","购物卡");
+        map.put("goodsName",indata.getGoodsname());//"购物卡"
         map.put("amount",indata.getCzje().toString());
         map.put("type",indata.getPaytype());//1马上 2易宝
         map.put("iszk","1");//0 不折扣 1 折扣
@@ -88,6 +88,42 @@ public class PayService {
         map.put("type",indata.getPaytype());//1马上 2易宝
         String json=gson.toJson(map);
         logger.info("退款:"+json);
+        json=AESCrypt.encryptAES(json);
+        return hs.GetMSService(url,json);
+    }
+
+    /**
+     * 验证易宝的验证码
+     * @param indata
+     * @return
+     */
+    public ResultData wetpayconfirm (RequestCardData indata)
+    {
+        String url="wetpayconfirm.do";
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("openId",indata.getOpenid());
+        map.put("orderId",indata.getOrderid());
+        map.put("validatecode",indata.getValidatecode());
+        String json=gson.toJson(map);
+        logger.info("易宝验证码:"+json);
+        json=AESCrypt.encryptAES(json);
+        return hs.GetMSService(url,json);
+    }
+
+
+    /**
+     * 修改马上交易密码
+     * @param
+     * @return
+     */
+    public ResultData wetpaypwdchg(String openid,String pwd)
+    {
+        String url="wetpaypwdchg.do";
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("openId",openid);
+        map.put("pwd",pwd);
+        String json=gson.toJson(map);
+        logger.info("修改马上密码:"+json);
         json=AESCrypt.encryptAES(json);
         return hs.GetMSService(url,json);
     }

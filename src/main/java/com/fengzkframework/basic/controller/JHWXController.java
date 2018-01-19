@@ -7,8 +7,10 @@ import com.fengzkframework.basic.dao.vo.MALLDEF;
 import com.fengzkframework.basic.domain.RequestCardData;
 import com.fengzkframework.basic.domain.RequestData;
 import com.fengzkframework.basic.domain.ResultData;
+import com.fengzkframework.basic.domain.ybyzmData;
 import com.fengzkframework.basic.enums.ResultEnum;
 import com.fengzkframework.basic.service.*;
+import com.fengzkframework.basic.utils.JsonUtils;
 import com.fengzkframework.basic.utils.ResultUtil;
 import com.fengzkframework.basic.utils.StringUtil;
 import com.google.gson.Gson;
@@ -16,6 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +41,10 @@ public class JHWXController {
     MemBaseInfoServiceImpl mems;
    @Autowired
     MallDefServiceImpl mallDefService;
+    @Autowired
+    PayService payService;
+    @Autowired
+    WXServiceImpl wxService;
     Logger logger = LoggerFactory.getLogger(JHWXController.class);
     Gson gson = new Gson();
     /**
@@ -190,7 +199,17 @@ public class JHWXController {
                 return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
             }
             Map<String, String> map = gson.fromJson(data, HashMap.class);
-            return hs.PostService("gethystatus",map);
+            ResultData resultData=hs.PostService("gethystatus",map);
+            if(resultData.getRetcode().equals("34"))
+            {
+              //  Map<String, String> mappwd = gson.fromJson(data, HashMap.class);
+                ResultData pdata= mems.ExistPWD(map);
+                if(pdata.getRetcode().equals("00"))
+                {
+                    resultData.setData(pdata.getData());
+                }
+            }
+            return resultData;
         }
         else
         {
@@ -430,6 +449,208 @@ public class JHWXController {
             }
             logger.info("解密后：" + data);
             return hs.PostService("cashbuycoupon",data);
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 马上易宝支付并且购买优惠券
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/payandcashbuycoupon", produces = "application/json;charset=UTF-8")
+    public ResultData payandcashbuycoupon(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data= AESCrypt.decryptAES( data);
+            if (StringUtil.strisnull(data)) {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(), ResultEnum.AESFAIL.getMsg());
+            }
+            RequestCardData indata = gson.fromJson(data, RequestCardData.class);
+            indata.setOrderid(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+ StringUtil.randomString(6));
+            int paytype=indata.getCzfs()+1;
+            indata.setPaytype(String.valueOf(paytype));
+            indata.setGoodsname("优惠券");
+            ResultData paydata = payService.cardpay(indata);
+            if (paydata.getRetcode().equals("0")) {
+                String paymsdata = AESCrypt.decryptAES(paydata.getData().toString());
+                Map<String, Object> map = JsonUtils.json2Map(paymsdata);
+                if (map.get("status").equals("4")) {
+                    ResultData mrd=null;
+                    try {
+                       //付款成功，发券
+                        mrd= hs.PostService("cashbuycoupon",data);
+                    }
+                    finally {
+                        if(mrd==null||(!mrd.getRetcode().equals("00")))//退款；
+                        {
+                            ResultData funddata = payService.cardfund(indata);
+                            if (funddata.getRetcode().equals("0")) {
+                                return  ResultUtil.error(ResultEnum.REFUNDSUC.getCode(), ResultEnum.REFUNDSUC.getMsg(), paydata.getRetmsg());
+                            }
+                            else {
+                                return funddata;
+                            }
+                        }
+                        else
+                            return  mrd;
+                    }
+
+                } else if (map.get("status").equals("0")){
+                    return ResultUtil.error(ResultEnum.SRYZM.getCode(), ResultEnum.SRYZM.getMsg(), indata.getOrderid());
+
+                } else {
+                    return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+                }
+
+            } else {
+
+              return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+            }
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 马上易宝支付的验证码；
+     * 发券
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/wetpayconfirm",produces = "application/json")
+    public  ResultData wetpayconfirm (@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            logger.info("解密后：" + data);
+            RequestCardData indata = gson.fromJson(data, RequestCardData.class);
+            int paytype=2;//indata.getCzfs()+1;
+            indata.setPaytype(String.valueOf(paytype));
+            ResultData paydata = payService.wetpayconfirm(indata);
+            if (paydata.getRetcode().equals("0")) {
+                String paymsdata = AESCrypt.decryptAES(paydata.getData().toString());
+                Map<String, Object> map = JsonUtils.json2Map(paymsdata);
+                if (map.get("status").equals("4")) {
+                    ResultData mrd = null;
+                    try {
+                        //付款成功，发券
+                        mrd= hs.PostService("cashbuycoupon",data);
+                    }
+                    finally {
+                        if(mrd==null||(!mrd.getRetcode().equals("00")))//退款；
+                        {
+                            ResultData funddata = payService.cardfund(indata);
+                            if (funddata.getRetcode().equals("0")) {
+                                return  ResultUtil.error(ResultEnum.REFUNDSUC.getCode(), ResultEnum.REFUNDSUC.getMsg(), paydata.getRetmsg());
+                            }
+                            else {
+                                return funddata;
+                            }
+                        }
+                        else
+                            return  mrd;
+                    }
+                }
+                else if (map.get("status").equals("0")){
+                    return ResultUtil.error(ResultEnum.SRYZM.getCode(), ResultEnum.SRYZM.getMsg(), indata.getOrderid());
+
+                } else {
+                    return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+                }
+            } else {
+//                ResultData  mrd= hs.PostService("cashbuycoupon",data);
+//                return mrd;
+                return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+            }
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    /**
+     * 马上易宝支付的验证码；
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/wetpayconfirm2",produces = "application/json")
+    public  ResultData wetpayconfirm2(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            logger.info("解密后：" + data);
+            RequestCardData indata = gson.fromJson(data, RequestCardData.class);
+            int paytype=2;//indata.getCzfs()+1;
+            indata.setPaytype(String.valueOf(paytype));
+            ResultData paydata = payService.wetpayconfirm(indata);
+            if (paydata.getRetcode().equals("0")) {
+                String paymsdata = AESCrypt.decryptAES(paydata.getData().toString());
+                Map<String, Object> map = JsonUtils.json2Map(paymsdata);
+                if (map.get("status").equals("4")) {
+                    ybyzmData ybyzmData=new ybyzmData();
+                    ybyzmData.setMoney(map.get("amout").toString());
+                    ybyzmData.setRealmoney(map.get("realamout").toString());
+                   return ResultUtil.success(ybyzmData);
+                }
+                else if (map.get("status").equals("0")){
+                    return ResultUtil.error(ResultEnum.SRYZM.getCode(), ResultEnum.SRYZM.getMsg(), indata.getOrderid());
+
+                } else {
+                    return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+                }
+            } else {
+//                ResultData  mrd= hs.PostService("cashbuycoupon",data);
+//                return mrd;
+                return ResultUtil.error(ResultEnum.PAYFAIL.getCode(), ResultEnum.PAYFAIL.getMsg(), paydata.getRetmsg());
+            }
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+
+    /**
+     * 验证码支付结果检查
+     * @param rdata
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "/wetpaytradequery",produces = "application/json")
+    public  ResultData wetpaytradequery (@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+//            logger.info("解密后：" + data);
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            String openid = map.get("openId");
+            String qrcode=map.get("qrcode");
+
+            return wxService.wetpayconfirm(openid,qrcode);
+
         } else {
             return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
         }

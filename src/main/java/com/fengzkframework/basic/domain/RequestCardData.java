@@ -18,6 +18,25 @@ public class RequestCardData extends  memcardmx {
 
     private  String orderid;
     private  String isrefund;
+    private  String goodsname;
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
+    }
+
+    public String getValidatecode() {
+        return validatecode;
+    }
+
+    public void setValidatecode(String validatecode) {
+        this.validatecode = validatecode;
+    }
+
+    private  String validatecode;
 
     public String getIsrefund() {
         return isrefund;

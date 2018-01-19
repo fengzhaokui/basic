@@ -19,6 +19,7 @@ public enum ResultEnum {
     SETPWDFAIL("14", "密码设置失败"),
     PWDISNOEXIST("15", "密码不存在,无法重置密码"),
     PWDISERROR("16", "旧密码错误,无法重置密码"),
+    UPPWDFAIL("17", "修改密码失败"),
     UNKNOWERROR("100", "未知错误"),
     NODATA("99", "没有数据"),
 
