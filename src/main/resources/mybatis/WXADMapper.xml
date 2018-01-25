@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.WXADMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.WXAD">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="BIGADDRESS" jdbcType="VARCHAR" property="bigaddress" />
+    <result column="SMALLADDRESS" jdbcType="VARCHAR" property="smalladdress" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BIGADDRESS, SMALLADDRESS, URL
+  </sql>
+  <select id="selectall"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from WXAD
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from WXAD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from WXAD
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.WXAD">
+    insert into WXAD (ID, BIGADDRESS, SMALLADDRESS, 
+      URL)
+    values (#{id,jdbcType=DECIMAL}, #{bigaddress,jdbcType=VARCHAR}, #{smalladdress,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.WXAD">
+    insert into WXAD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="bigaddress != null">
+        BIGADDRESS,
+      </if>
+      <if test="smalladdress != null">
+        SMALLADDRESS,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="bigaddress != null">
+        #{bigaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="smalladdress != null">
+        #{smalladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.WXAD">
+    update WXAD
+    <set>
+      <if test="bigaddress != null">
+        BIGADDRESS = #{bigaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="smalladdress != null">
+        SMALLADDRESS = #{smalladdress,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.WXAD">
+    update WXAD
+    set BIGADDRESS = #{bigaddress,jdbcType=VARCHAR},
+      SMALLADDRESS = #{smalladdress,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -3,6 +3,7 @@ package com.fengzkframework.basic.controller;
 import com.fengzkframework.basic.aes.AESCrypt;
 import com.fengzkframework.basic.dao.MALLDEFMapper;
 import com.fengzkframework.basic.dao.MEM_BASEINFOMapper;
+import com.fengzkframework.basic.dao.WXADMapper;
 import com.fengzkframework.basic.dao.vo.MALLDEF;
 import com.fengzkframework.basic.domain.RequestCardData;
 import com.fengzkframework.basic.domain.RequestData;
@@ -45,6 +46,8 @@ public class JHWXController {
     PayService payService;
     @Autowired
     WXServiceImpl wxService;
+    @Autowired
+    WXADServiceImpl wxadService;
     Logger logger = LoggerFactory.getLogger(JHWXController.class);
     Gson gson = new Gson();
     /**
@@ -815,6 +818,49 @@ public class JHWXController {
             }
             logger.info("解密后：" + data);
             return hs.PostService("sendcoupon",data);
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    @PostMapping(value = "/selectwxad",produces = "application/json")
+    public  ResultData selectwxad() throws Exception {
+
+return ResultUtil.success(wxadService.selectall());
+
+    }
+
+    @PostMapping(value = "/contracthtml",produces = "application/json")
+    public  ResultData contracthtml(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return payService.contracthtml(map.get("openid"));
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    @PostMapping(value = "/contractsupply",produces = "application/json")
+    public  ResultData contractsupply(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return payService.contractsupply(map.get("openid"));
         } else {
             return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
         }

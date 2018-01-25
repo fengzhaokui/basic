@@ -127,4 +127,37 @@ public class PayService {
         json=AESCrypt.encryptAES(json);
         return hs.GetMSService(url,json);
     }
+
+    public ResultData contracthtml (String openid)
+    {
+        String url="contract/html.do";
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("openId",openid);
+        String json=gson.toJson(map);
+        json=AESCrypt.encryptAES(json);
+        ResultData resultData= hs.GetMSService(url,json);
+        if ((resultData.getRetcode().equals("0"))) {
+           resultData.setRetcode("00");
+           String str=AESCrypt.decryptAES(resultData.getData().toString());
+            Map<String, String> map1 = gson.fromJson(str, HashMap.class);
+            String htmlContract = map1.get("htmlContract");
+            resultData.setData(htmlContract);
+        }
+        return  resultData;
+    }
+
+    public ResultData contractsupply (String openid)
+    {
+        String url="contract/supply.do";
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("openId",openid);
+        String json=gson.toJson(map);
+        json=AESCrypt.encryptAES(json);
+        ResultData resultData= hs.GetMSService(url,json);
+        if ((resultData.getRetcode().equals("0"))) {
+            resultData.setRetcode("00");
+        }
+        return  resultData;
+    }
+
 }
