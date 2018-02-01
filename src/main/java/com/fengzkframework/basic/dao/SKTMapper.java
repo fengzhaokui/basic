@@ -15,6 +15,8 @@ public interface SKTMapper {
     
     SKT selectByMaCode(String macode);
 
+    SKT selectBymdid(Integer mdid);
+
     int updateByPrimaryKeySelective(SKT record);
 
     int updateByPrimaryKey(SKT record);

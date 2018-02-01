@@ -1,8 +1,8 @@
 server:
   port: 8080
   #192.168.28.239:81
-wxserviceurl: "http://192.168.28.239:81/xbapi/weixin/"
-msserviceurl: "http://192.168.28.239:8080/msxfInterface2/"
+wxserviceurl: "http://210.14.129.41:81/xbapi/weixin/"
+msserviceurl: "http://210.14.129.41:8080/msxfInterface2/"
 msshopcode: 20152389
 ybshopcode: 10016083399
 spring:

@@ -21,6 +21,11 @@ public class SktServiceImpl {
 		// TODO Auto-generated method stub
 		return sktMapper.selectByMaCode(macode);
 	}
+
+	public SKT selectBymdid(Integer mdid) {
+		// TODO Auto-generated method stub
+		return sktMapper.selectBymdid(mdid);
+	}
 	
 	
 }

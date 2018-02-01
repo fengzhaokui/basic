@@ -37,6 +37,16 @@ public class MEM_BASEINFO {
 
     private String openid;
 
+    public String getPureopenid() {
+        return pureopenid;
+    }
+
+    public void setPureopenid(String pureopenid) {
+        this.pureopenid = pureopenid;
+    }
+
+    private String pureopenid;
+
     private String thirdhyid;
 
     private String phoneWxtj;

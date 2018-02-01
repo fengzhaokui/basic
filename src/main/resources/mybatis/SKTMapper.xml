@@ -41,6 +41,12 @@
     from SKT
     where SKTNO = #{sktno,jdbcType=VARCHAR}
   </select>
+  <select id="selectBymdid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SKT
+    where MDID = #{mdid,jdbcType=DECIMAL} AND MAC1 IS  NOT  NULL
+  </select>
    <select id="selectByMaCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

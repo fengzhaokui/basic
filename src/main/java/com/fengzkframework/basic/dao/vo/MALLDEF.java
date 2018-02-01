@@ -32,6 +32,15 @@ public class MALLDEF {
     private Integer cityid;
 
     private String cityname;
+    private  String yeepaysubno;
+
+    public String getYeepaysubno() {
+        return yeepaysubno;
+    }
+
+    public void setYeepaysubno(String yeepaysubno) {
+        this.yeepaysubno = yeepaysubno;
+    }
 
     public Integer getYttype() {
         return yttype;

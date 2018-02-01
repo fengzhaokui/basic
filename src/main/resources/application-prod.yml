@@ -1,8 +1,10 @@
 server:
   port: 8080
+#wxserviceurl: "http://127.0.0.1:7885/xbapi/weixin/"
+#msserviceurl: "http://127.0.0.1:7886/msxfInterface2/accountInfo.do"
 wxserviceurl: "http://127.0.0.1:7885/xbapi/weixin/"
-msserviceurl: "http://127.0.0.1:7886/msxfInterface2/accountInfo.do"
-msshopcode: 20152389
+msserviceurl: "http://210.14.129.41:8080/msxfInterface2/"
+msshopcode: 20134438
 ybshopcode: 10016083399
 spring:
    datasource:
@@ -10,13 +12,13 @@ spring:
      url: jdbc:oracle:thin:@//127.0.0.1:1521/ZNPOS
      username: XBPOS
      password: XBPOSXBPOS
-   redis:
-     host: 192.168.6.43
-     port: 6379
-eureka:
-  instance:
-      hostname: localhost
-      port: 8081
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+#   redis:
+#     host: 192.168.6.43
+#     port: 6379
+#eureka:
+#  instance:
+#      hostname: localhost
+#      port: 8081
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/

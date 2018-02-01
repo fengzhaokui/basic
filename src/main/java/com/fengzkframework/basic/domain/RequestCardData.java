@@ -19,6 +19,15 @@ public class RequestCardData extends  memcardmx {
     private  String orderid;
     private  String isrefund;
     private  String goodsname;
+    private String mallcode;
+
+    public String getMallcode() {
+        return mallcode;
+    }
+
+    public void setMallcode(String mallcode) {
+        this.mallcode = mallcode;
+    }
 
     public String getGoodsname() {
         return goodsname;

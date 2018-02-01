@@ -19,6 +19,7 @@
     <result column="TEACHER_CARD" jdbcType="VARCHAR" property="teacherCard" />
     <result column="SOLDIER_CARD" jdbcType="VARCHAR" property="soldierCard" />
     <result column="OPENID" jdbcType="VARCHAR" property="openid" />
+    <result column="PUREOPENID" jdbcType="VARCHAR" property="pureopenid" />
     <result column="THIRDHYID" jdbcType="VARCHAR" property="thirdhyid" />
     <result column="PHONE_WXTJ" jdbcType="VARCHAR" property="phoneWxtj" />
     <result column="PHONE_CFTJ" jdbcType="VARCHAR" property="phoneCftj" />
@@ -28,7 +29,7 @@
   <sql id="Base_Column_List">
     HYID, HYKTYPE, HYKNO, CDNR, HYNAME, PHONE, VALIDDATE, PASSWORD, STATUS, EXTERHYID, 
     BIRTHDATE, SEX, IDCARD, PASSPORT, TEACHER_CARD, SOLDIER_CARD, OPENID, THIRDHYID, 
-    PHONE_WXTJ, PHONE_CFTJ, BJ_KTXJ, CREATETIME
+    PHONE_WXTJ, PHONE_CFTJ, BJ_KTXJ, CREATETIME,PUREOPENID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -41,6 +42,13 @@
     <include refid="Base_Column_List" />
     from MEM_BASEINFO
     where OPENID = #{openid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectBypureopenid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEM_BASEINFO
+    where PUREOPENID = #{pureopenid,jdbcType=VARCHAR}
   </select>
 
   <select id="selectByphone" parameterType="java.lang.String" resultMap="BaseResultMap">

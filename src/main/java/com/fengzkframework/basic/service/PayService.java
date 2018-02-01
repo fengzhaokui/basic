@@ -1,7 +1,9 @@
 package com.fengzkframework.basic.service;
 
 import com.fengzkframework.basic.aes.AESCrypt;
+import com.fengzkframework.basic.dao.vo.MALLDEF;
 import com.fengzkframework.basic.dao.vo.MEM_BASEINFO;
+import com.fengzkframework.basic.dao.vo.SKT;
 import com.fengzkframework.basic.domain.RequestCardData;
 import com.fengzkframework.basic.domain.RequestData;
 import com.fengzkframework.basic.domain.ResultData;
@@ -9,6 +11,7 @@ import com.fengzkframework.basic.enums.ResultEnum;
 import com.fengzkframework.basic.utils.ResultUtil;
 import com.fengzkframework.basic.utils.StringUtil;
 import com.google.gson.Gson;
+import com.netflix.discovery.converters.Auto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,11 @@ public class PayService {
     HttpService hs;
     @Autowired
      MemBaseInfoServiceImpl ms;
+    @Autowired
+    SktServiceImpl sktService;
 
+    @Autowired
+    MallDefServiceImpl mallDefService;
     @Value("${msshopcode}")
     private String msshopcode;
 
@@ -50,12 +57,26 @@ public class PayService {
         Map<String,String> map=new HashMap<String,String>();
         map.put("openId",indata.getOpenid());
         map.put("hyId",memBaseinfo.getHyid().toString());
+       MALLDEF malldef= mallDefService.selectBycode(Integer.valueOf(indata.getMallcode()));
+       if(malldef==null)
+       {
+           logger.info("马上支付门店不存在");
+           return ResultUtil.error(ResultEnum.PAYFAIL.getCode(),ResultEnum.PAYFAIL.getMsg());
+       }
         if(indata.getPaytype().equals("1"))
         {
+           SKT skt= sktService.selectBymdid(malldef.getId());
+           if(skt==null)
+           {
+               logger.info("马上支付门店不存在");
+               return ResultUtil.error(ResultEnum.PAYFAIL.getCode(),ResultEnum.PAYFAIL.getMsg());
+           }
+           msshopcode=skt.getMac1();
             map.put("partnerId",msshopcode);//账户号
         }
         else if (indata.getPaytype().equals("2"))
         {
+            ybshopcode=malldef.getYeepaysubno();
             map.put("partnerId",ybshopcode);//账户号
         }
         map.put("partnerName","佳惠");

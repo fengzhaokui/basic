@@ -18,6 +18,12 @@ public class MallDefServiceImpl {
     MALLDEFMapper malldefMapper;
     @Autowired
     CITYDEFMapper citydefMapper;
+
+   public MALLDEF selectBycode(Integer code)
+   {
+       return malldefMapper.selectBycode(code);
+   }
+
     public List<OutMallData> selectByytandcity2(MALLDEF def)
     {
         List<OutMallData> olist=new ArrayList<OutMallData>();

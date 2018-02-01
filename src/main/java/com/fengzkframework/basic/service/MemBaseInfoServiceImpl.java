@@ -33,9 +33,17 @@ public class MemBaseInfoServiceImpl {
 		return memMapper.selectByPrimaryKey(hyid).getHyname();
 	}
 
+	/**
+	 * 根据openid查询会员，如果openid没有查到用pureopenid再查询
+	 * @param openid
+	 * @return
+	 */
 	public MEM_BASEINFO selectByopenid(String openid) {
 		// TODO Auto-generated method stub
-		return memMapper.selectByopenid(openid);
+		MEM_BASEINFO mem_baseinfo=memMapper.selectByopenid(openid);
+		if(mem_baseinfo==null)
+			mem_baseinfo=memMapper.selectBypureopenid(openid);
+		return mem_baseinfo;
 	}
 
 	public List<MEM_BASEINFO> selectByphone(String phone) {

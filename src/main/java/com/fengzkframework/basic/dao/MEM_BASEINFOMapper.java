@@ -12,6 +12,9 @@ public interface MEM_BASEINFOMapper {
     MEM_BASEINFO selectByPrimaryKey(Long hyid);
 
     MEM_BASEINFO selectByopenid(String openid);
+
+    MEM_BASEINFO selectBypureopenid(String pureopenid);
+
     List<MEM_BASEINFO> selectByphone(String phone);
 
 

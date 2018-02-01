@@ -18,20 +18,21 @@
     <result column="YTTYPE" jdbcType="DECIMAL" property="yttype" />
     <result column="CITYID" jdbcType="DECIMAL" property="cityid" />
     <result column="CITYNAME" jdbcType="DECIMAL" property="cityname" />
+    <result column="YEEPAYSUBNO" jdbcType="VARCHAR" property="yeepaysubno" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, CODE, NAME, LASTMODIFIERID, LASTMODIFIERNAME, LASTMODIFYDATE, XTCODE, TM, OLD_MDID, 
-    MDID_PARK, MDADDRESS, MDPHONE, BJ_AUTOREG,YTTYPE,CITYID
+    MDID_PARK, MDADDRESS, MDPHONE, BJ_AUTOREG,YTTYPE,CITYID,YEEPAYSUBNO
   </sql>
   <select id="selectByytandcity" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from MALLDEF
     <where>
-    <if test="cityid != null">
+    <if test="cityid != null and cityid !=''">
       CITYID = #{cityid,jdbcType=DECIMAL}
     </if>
-    <if test="yttype != null">
+    <if test="yttype != null and yttype !=''">
       AND YTTYPE=#{yttype,jdbcType=DECIMAL}
     </if>
     </where>
@@ -43,10 +44,10 @@
     from MALLDEF M,CITYDEF C,CITYDEF F
     <where>
       M.CITYID=C.ID AND C.fatherid=F.ID
-      <if test="cityid != null">
+      <if test="cityid != null and cityid !=''">
        AND CITYID = #{cityid,jdbcType=DECIMAL}
       </if>
-      <if test="yttype != null">
+      <if test="yttype != null and yttype !=''">
         AND YTTYPE=#{yttype,jdbcType=DECIMAL}
       </if>
     </where>
@@ -63,6 +64,13 @@
     <include refid="Base_Column_List" />
     from MALLDEF
     where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectBycode" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MALLDEF
+    where CODE = #{code,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from MALLDEF

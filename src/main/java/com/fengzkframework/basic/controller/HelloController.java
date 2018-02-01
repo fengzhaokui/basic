@@ -35,7 +35,7 @@ public class HelloController {
 //       List<String> keys= redis.GetAllRedisKeys();
         MALLDEF malldef=new MALLDEF();
         malldef.setYttype(0);
-        malldef.setCityid(2);
+       // malldef.setCityid(2);
         List<MALLDEF> list=malldefMapper.selectByytandcity2(malldef);
         return "ok";// + myId +keys.toString();
 //        return girlProperties.getCupSize();
