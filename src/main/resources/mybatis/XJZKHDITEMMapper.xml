@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.XJZKHDITEMMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.XJZKHDITEM">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <id column="SKFS" jdbcType="DECIMAL" property="skfs" />
+    <result column="ZKL" jdbcType="DECIMAL" property="zkl" />
+    <result column="KCSL" jdbcType="DECIMAL" property="kcsl" />
+    <result column="GRKCSL" jdbcType="DECIMAL" property="grkcsl" />
+    <result column="XSSL" jdbcType="DECIMAL" property="xssl" />
+    <result column="MAXZKJE" jdbcType="DECIMAL" property="maxzkje" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SKFS, ZKL, KCSL, GRKCSL, XSSL,MAXZKJE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEMKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from XJZKHDITEM
+    where ID = #{id,jdbcType=DECIMAL}
+      and SKFS = #{skfs,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEMKey">
+    delete from XJZKHDITEM
+    where ID = #{id,jdbcType=DECIMAL}
+      and SKFS = #{skfs,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEM">
+    insert into XJZKHDITEM (ID, SKFS, ZKL, 
+      KCSL, GRKCSL, XSSL)
+    values (#{id,jdbcType=DECIMAL}, #{skfs,jdbcType=DECIMAL}, #{zkl,jdbcType=DECIMAL}, 
+      #{kcsl,jdbcType=DECIMAL}, #{grkcsl,jdbcType=DECIMAL}, #{xssl,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEM">
+    insert into XJZKHDITEM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="skfs != null">
+        SKFS,
+      </if>
+      <if test="zkl != null">
+        ZKL,
+      </if>
+      <if test="kcsl != null">
+        KCSL,
+      </if>
+      <if test="grkcsl != null">
+        GRKCSL,
+      </if>
+      <if test="xssl != null">
+        XSSL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="skfs != null">
+        #{skfs,jdbcType=DECIMAL},
+      </if>
+      <if test="zkl != null">
+        #{zkl,jdbcType=DECIMAL},
+      </if>
+      <if test="kcsl != null">
+        #{kcsl,jdbcType=DECIMAL},
+      </if>
+      <if test="grkcsl != null">
+        #{grkcsl,jdbcType=DECIMAL},
+      </if>
+      <if test="xssl != null">
+        #{xssl,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEM">
+    update XJZKHDITEM
+    <set>
+      <if test="zkl != null">
+        ZKL = #{zkl,jdbcType=DECIMAL},
+      </if>
+      <if test="kcsl != null">
+        KCSL = #{kcsl,jdbcType=DECIMAL},
+      </if>
+      <if test="grkcsl != null">
+        GRKCSL = #{grkcsl,jdbcType=DECIMAL},
+      </if>
+      <if test="xssl != null">
+        XSSL = #{xssl,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+      and SKFS = #{skfs,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEM">
+    update XJZKHDITEM
+    set ZKL = #{zkl,jdbcType=DECIMAL},
+      KCSL = #{kcsl,jdbcType=DECIMAL},
+      GRKCSL = #{grkcsl,jdbcType=DECIMAL},
+      XSSL = #{xssl,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+      and SKFS = #{skfs,jdbcType=DECIMAL}
+  </update>
+</mapper>

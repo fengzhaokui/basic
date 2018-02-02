@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SktServiceImpl {
 	@Autowired
@@ -24,7 +26,11 @@ public class SktServiceImpl {
 
 	public SKT selectBymdid(Integer mdid) {
 		// TODO Auto-generated method stub
-		return sktMapper.selectBymdid(mdid);
+		List<SKT> list=sktMapper.selectBymdid(mdid);
+		if(list!=null && list.size()>0)
+			return list.get(0);
+		else
+			return null;
 	}
 	
 	

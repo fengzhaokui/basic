@@ -48,6 +48,8 @@ public class JHWXController {
     WXServiceImpl wxService;
     @Autowired
     WXADServiceImpl wxadService;
+    @Autowired
+            XfjrActivity xfjrActivity;
     Logger logger = LoggerFactory.getLogger(JHWXController.class);
     Gson gson = new Gson();
     /**
@@ -664,7 +666,7 @@ public class JHWXController {
         if (rdata != null) {
             String data = rdata.getData();
             logger.info("收到：" + data);
-            data = AESCrypt.decryptAES(data);
+           // data = AESCrypt.decryptAES(data);
             if(StringUtil.strisnull(data))
             {
                 logger.info("解密失败");
@@ -861,6 +863,25 @@ return ResultUtil.success(wxadService.selectall());
             }
             Map<String, String> map = gson.fromJson(data, HashMap.class);
             return payService.contractsupply(map.get("openid"));
+        } else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+    }
+
+    @PostMapping(value = "/getxjrealmoney",produces = "application/json")
+    public  ResultData getxjrealmoney(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if(StringUtil.strisnull(data))
+            {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(),ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            return xfjrActivity.GetRealMoney(map.get("money"),map.get("mallcode"),map.get("openid"));
+
         } else {
             return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
         }

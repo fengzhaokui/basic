@@ -73,12 +73,19 @@ public class PayService {
            }
            msshopcode=skt.getMac1();
             map.put("partnerId",msshopcode);//账户号
+            map.put("sktno",skt.getSktno());
         }
         else if (indata.getPaytype().equals("2"))
         {
             ybshopcode=malldef.getYeepaysubno();
             map.put("partnerId",ybshopcode);//账户号
+            SKT skt= sktService.selectBymdid(malldef.getId());
+            if(skt==null)
+            {
+                map.put("sktno",skt.getSktno());
+            }
         }
+
         map.put("partnerName","佳惠");
         map.put("orderId",indata.getOrderid());
         map.put("goodsName",indata.getGoodsname());//"购物卡"

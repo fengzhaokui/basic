@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.XJZKHDMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.XJZKHD">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="KSRQ" jdbcType="DATE" property="ksrq" />
+    <result column="JSRQ" jdbcType="DATE" property="jsrq" />
+    <result column="DJR" jdbcType="DECIMAL" property="djr" />
+    <result column="DJRMC" jdbcType="VARCHAR" property="djrmc" />
+    <result column="DJSJ" jdbcType="TIMESTAMP" property="djsj" />
+    <result column="KCSL" jdbcType="DECIMAL" property="kcsl" />
+    <result column="GRKCSL" jdbcType="DECIMAL" property="grkcsl" />
+    <result column="XSSL" jdbcType="DECIMAL" property="xssl" />
+    <result column="KCSL_FLAG" jdbcType="DECIMAL" property="kcslFlag" />
+    <result column="GRKCSL_FLAG" jdbcType="DECIMAL" property="grkcslFlag" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="ZXR" jdbcType="DECIMAL" property="zxr" />
+    <result column="ZXRMC" jdbcType="VARCHAR" property="zxrmc" />
+    <result column="ZXRQ" jdbcType="TIMESTAMP" property="zxrq" />
+    <result column="GZID" jdbcType="DECIMAL" property="gzid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, KSRQ, JSRQ, DJR, DJRMC, DJSJ, KCSL, GRKCSL, XSSL, KCSL_FLAG, GRKCSL_FLAG, STATUS, 
+    ZXR, ZXRMC, ZXRQ, GZID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from XJZKHD
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+ 
+   <select id="selectOneHD" parameterType="com.fengzkframework.basic.dao.vo.XJZKHDITEMKey" resultMap="BaseResultMap">
+    select 
+   a.ID
+    from XJZKHD a,XJZKHDITEM b
+    where a.ID =b.ID and status=1 and b.SKFS=#{skfs,jdbcType=DECIMAL}  and a.HDLX=#{hdlx,jdbcType=DECIMAL}
+    and a.MALLID=#{mdid,jdbcType=DECIMAL}
+     <![CDATA[ and a.KSRQ <= #{datenow,jdbcType=DATE} and a.JSRQ >=#{datenow,jdbcType=DATE}]]>
+      ORDER BY ID DESC
+  </select>
+  
+</mapper>

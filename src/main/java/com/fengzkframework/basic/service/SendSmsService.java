@@ -4,6 +4,7 @@ import com.fengzkframework.basic.dao.VERIFYCODEMapper;
 import com.fengzkframework.basic.dao.vo.VERIFYCODE;
 import com.fengzkframework.basic.domain.ResultData;
 import com.fengzkframework.basic.enums.ResultEnum;
+import com.fengzkframework.basic.utils.ALDYSmsUtils;
 import com.fengzkframework.basic.utils.SmsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,8 @@ public class SendSmsService {
     private VERIFYCODEMapper mapper;
     @Autowired
     private SmsUtils sms;
+    @Autowired
+            private ALDYSmsUtils aldySmsUtils;
     Logger logger = LoggerFactory.getLogger(SendSmsService.class);
 
    // @CachePut(value="accountCache",key="#account.getName()")// 更新accountCache 缓存
@@ -49,7 +52,8 @@ public class SendSmsService {
             }
             InSms(phone,con);
             content+=con;
-            logger.info( sms.send(phone,content));
+           // logger.info( sms.send(phone,content));
+            aldySmsUtils.Sendsms(phone,con);
             data.setRetcode(ResultEnum.SUCCESS.getCode());
             data.setRetmsg(ResultEnum.SUCCESS.getMsg());
         }

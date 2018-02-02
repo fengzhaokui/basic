@@ -3,6 +3,8 @@ package com.fengzkframework.basic.dao;
 import com.fengzkframework.basic.dao.vo.SKT;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface SKTMapper {
     int deleteByPrimaryKey(String sktno);
@@ -15,7 +17,7 @@ public interface SKTMapper {
     
     SKT selectByMaCode(String macode);
 
-    SKT selectBymdid(Integer mdid);
+    List<SKT> selectBymdid(Integer mdid);
 
     int updateByPrimaryKeySelective(SKT record);
 

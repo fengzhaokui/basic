@@ -1,5 +1,6 @@
 package com.fengzkframework.basic.dao.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class MALLDEF {
@@ -33,6 +34,35 @@ public class MALLDEF {
 
     private String cityname;
     private  String yeepaysubno;
+    private BigDecimal  longtitude;
+    private BigDecimal  latitude;
+
+    private String photourl;
+
+    public BigDecimal getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(BigDecimal longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getPhotourl() {
+        return photourl;
+    }
+
+    public void setPhotourl(String photourl) {
+        this.photourl = photourl;
+    }
+
 
     public String getYeepaysubno() {
         return yeepaysubno;

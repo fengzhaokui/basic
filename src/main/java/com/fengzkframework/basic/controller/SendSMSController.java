@@ -3,6 +3,7 @@ package com.fengzkframework.basic.controller;
 import com.fengzkframework.basic.domain.ResultData;
 import com.fengzkframework.basic.enums.ResultEnum;
 import com.fengzkframework.basic.service.SendSmsService;
+import com.fengzkframework.basic.utils.ALDYSmsUtils;
 import com.fengzkframework.basic.utils.SmsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ public class SendSMSController {
     private SmsUtils sms;
     @Autowired
     private SendSmsService smss;
+    @Autowired
+    private ALDYSmsUtils aldySmsUtils;
     @GetMapping("/sendsms")
     public  void Sendsms(@RequestParam(value = "phone", required = false) String phone)
     {
@@ -35,8 +38,9 @@ public class SendSMSController {
                 con += rd.nextInt(10);
             }
             smss.InSms(phone,con);
-            content+=con;
-            logger.info( sms.send(phone,content));
+            aldySmsUtils.Sendsms(phone,con);
+           // content+=con;
+            //logger.info( sms.send(phone,content));
         }
         else
         {

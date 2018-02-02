@@ -106,10 +106,15 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.alicom.dysms</groupId>
-			<artifactId>alicom-dysms-api</artifactId>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.alicom.dysms</groupId>-->
+			<!--<artifactId>alicom-dysms-api</artifactId>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>com.aliyun</groupId>-->
+			<!--<artifactId>aliyun-java-sdk-dysmsapi</artifactId>-->
+			<!--<version>1.0.0-SNAPSHOT</version>-->
+		<!--</dependency>-->
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

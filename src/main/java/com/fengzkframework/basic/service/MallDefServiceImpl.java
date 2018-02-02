@@ -22,12 +22,15 @@ public class MallDefServiceImpl {
    public MALLDEF selectBycode(Integer code)
    {
        return malldefMapper.selectBycode(code);
+
+
    }
 
     public List<OutMallData> selectByytandcity2(MALLDEF def)
     {
         List<OutMallData> olist=new ArrayList<OutMallData>();
         OutMallData outMallData=null;
+
         List<MALLDEF> list= malldefMapper.selectByytandcity2(def);
         for(MALLDEF item:list) {
             outMallData = new OutMallData();
@@ -35,6 +38,11 @@ public class MallDefServiceImpl {
             outMallData.setMallcode(item.getCode());
             outMallData.setMallname(item.getName());
             outMallData.setCityname(item.getCityname());
+            if(item.getLongtitude()!=null)
+            outMallData.setLongtitude(item.getLongtitude().toString());
+            outMallData.setPhotourl(item.getPhotourl());
+            if(item.getLatitude()!=null)
+            outMallData.setLatitude(item.getLatitude().toString());
             olist.add(outMallData);
         }
         return  olist;

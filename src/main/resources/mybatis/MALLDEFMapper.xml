@@ -19,20 +19,23 @@
     <result column="CITYID" jdbcType="DECIMAL" property="cityid" />
     <result column="CITYNAME" jdbcType="DECIMAL" property="cityname" />
     <result column="YEEPAYSUBNO" jdbcType="VARCHAR" property="yeepaysubno" />
+    <result column="PHOTOURL" jdbcType="VARCHAR" property="photourl" />
+    <result column="LONGTITUDE" jdbcType="DECIMAL" property="longtitude" />
+    <result column="LATITUDE" jdbcType="DECIMAL" property="latitude" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, CODE, NAME, LASTMODIFIERID, LASTMODIFIERNAME, LASTMODIFYDATE, XTCODE, TM, OLD_MDID, 
-    MDID_PARK, MDADDRESS, MDPHONE, BJ_AUTOREG,YTTYPE,CITYID,YEEPAYSUBNO
+    MDID_PARK, MDADDRESS, MDPHONE, BJ_AUTOREG,YTTYPE,CITYID,YEEPAYSUBNO,PHOTOURL,LONGTITUDE,LATITUDE
   </sql>
   <select id="selectByytandcity" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from MALLDEF
     <where>
-    <if test="cityid != null and cityid !=''">
+    <if test="cityid != null ">
       CITYID = #{cityid,jdbcType=DECIMAL}
     </if>
-    <if test="yttype != null and yttype !=''">
+    <if test="yttype != null ">
       AND YTTYPE=#{yttype,jdbcType=DECIMAL}
     </if>
     </where>
@@ -40,14 +43,14 @@
   <!--多表组合查询-->
   <select id="selectByytandcity2" parameterType="com.fengzkframework.basic.dao.vo.MALLDEF" resultMap="BaseResultMap">
     select
-     M.NAME ,F.CITYNAME||C.CITYNAME CITYNAME,M.CODE,M.CITYID
+     M.NAME ,F.CITYNAME||C.CITYNAME CITYNAME,M.CODE,M.CITYID,M.PHOTOURL,M.LONGTITUDE,M.LATITUDE
     from MALLDEF M,CITYDEF C,CITYDEF F
     <where>
       M.CITYID=C.ID AND C.fatherid=F.ID
-      <if test="cityid != null and cityid !=''">
+      <if test="cityid != null ">
        AND CITYID = #{cityid,jdbcType=DECIMAL}
       </if>
-      <if test="yttype != null and yttype !=''">
+      <if test="yttype != null ">
         AND YTTYPE=#{yttype,jdbcType=DECIMAL}
       </if>
     </where>
