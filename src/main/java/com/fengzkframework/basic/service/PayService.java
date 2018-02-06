@@ -79,11 +79,13 @@ public class PayService {
         {
             ybshopcode=malldef.getYeepaysubno();
             map.put("partnerId",ybshopcode);//账户号
-            SKT skt= sktService.selectBymdid(malldef.getId());
-            if(skt==null)
+            SKT skt= sktService.selectBymdid2(malldef.getId());
+            if(skt!=null)
             {
                 map.put("sktno",skt.getSktno());
             }
+            else
+                map.put("sktno","-1");
         }
 
         map.put("partnerName","佳惠");

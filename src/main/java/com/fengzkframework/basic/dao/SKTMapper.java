@@ -19,6 +19,8 @@ public interface SKTMapper {
 
     List<SKT> selectBymdid(Integer mdid);
 
+    List<SKT> selectBymdid2(Integer mdid);
+
     int updateByPrimaryKeySelective(SKT record);
 
     int updateByPrimaryKey(SKT record);

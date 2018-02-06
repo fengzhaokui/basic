@@ -55,14 +55,16 @@ public class XfjrActivity {
         MEM_BASEINFO mem_baseinfo = memBaseInfoService.selectByopenid(openid);
         if (mem_baseinfo != null) {
             list=new ArrayList<Realmoneydata>();
-            Realmoneydata data=new Realmoneydata();
-            data.setSkfs("15");
-            data.setRealmoney(GetRealMoney(new BigDecimal(money) ,1,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()).toString());
-            list.add(data);
-            Realmoneydata data1=new Realmoneydata();
-            data1.setSkfs("23");
-            data1.setRealmoney(GetRealMoney(new BigDecimal(money),2,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()).toString());
-            list.add(data1);
+//            Realmoneydata data=new Realmoneydata();
+//            data.setSkfs("15");
+//            data.setRealmoney(GetRealMoney(new BigDecimal(money) ,1,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()).toString());
+//            list.add(data);
+//            Realmoneydata data1=new Realmoneydata();
+//            data1.setSkfs("23");
+//            data1.setRealmoney(GetRealMoney(new BigDecimal(money),2,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()).toString());
+//            list.add(data1);
+            list.add(GetRealMoney(new BigDecimal(money) ,1,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()));
+            list.add(GetRealMoney(new BigDecimal(money) ,2,Integer.valueOf(mallcode),mem_baseinfo.getHyid().intValue()));
             return ResultUtil.success(list);
         }
         return ResultUtil.error(ResultEnum.NOHY.getCode(),ResultEnum.NOHY.getMsg());
@@ -88,11 +90,22 @@ public  class  Realmoneydata
     }
 
     private  String realmoney;
+
+    public String getZkl() {
+        return zkl;
+    }
+
+    public void setZkl(String zkl) {
+        this.zkl = zkl;
+    }
+
+    private  String zkl;
 }
 
-    public BigDecimal GetRealMoney(BigDecimal money, int skfstype, int mallcode, int hyid) {
+    public Realmoneydata GetRealMoney(BigDecimal money, int skfstype, int mallcode, int hyid) {
+        Realmoneydata data=new Realmoneydata();
         try {
-            //logger.info("GetRealMoney;money:" + money + "skfstype:" + skfstype + ";sktno:" + sktno);
+
             BigDecimal realmoney = new BigDecimal(0);
             XJZKHDITEMKey key = new XJZKHDITEMKey();
             int skfs = 0;
@@ -100,10 +113,14 @@ public  class  Realmoneydata
                 skfs = 15;
             else if (skfstype == 2)
                 skfs = 23;
-            else
-                return money.setScale(2, BigDecimal.ROUND_HALF_UP);
+            else {
+                data.setSkfs("-1");
+                data.setZkl("100");
+                data.setRealmoney(money.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                return data;
+            }
+            data.setSkfs(String.valueOf(skfs));
             key.setSkfs(skfs);
-
             key.setDatenow(new Date());
             MALLDEF malldef = mallDefService.selectBycode(mallcode);
             //SKT skt = sktMapper.selectByPrimaryKey(sktno);
@@ -127,20 +144,23 @@ public  class  Realmoneydata
                         XJZKHD_MEM mem = xjzkhdmemMapper.selectByPrimaryKey(memkey);// 获取已经有的记录
                         if (mem != null) {
                             if (item.getGrkcsl() <= mem.getXssl()) {
-                                return money;
+                                data.setZkl("100");
+                                data.setRealmoney(money.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                return data;
                             }
                         }
                     }
                     BigDecimal zkl2 = new BigDecimal(1).subtract(item.getZkl());
                     BigDecimal zkmoney = zkl2.multiply(money).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    // System.out.println("限额：" + item.getMaxzkje());
                     if (item.getMaxzkje() != null) {
                         if (zkmoney.compareTo(item.getMaxzkje()) == 1) {
                             zkmoney = item.getMaxzkje();
                         }
                     }
                     realmoney = money.subtract(zkmoney).setScale(2, BigDecimal.ROUND_HALF_UP);
-                    return realmoney;
+                    data.setZkl(String.valueOf(item.getZkl()));
+                    data.setRealmoney(realmoney.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                    return data;
                 }
             } else {
                 key.setHdlx(0l);// 普通活动
@@ -159,7 +179,9 @@ public  class  Realmoneydata
                             XJZKHD_MEM mem = xjzkhdmemMapper.selectByPrimaryKey(memkey);// 获取已经有的记录
                             if (mem != null) {
                                 if (item.getGrkcsl() <= mem.getXssl()) {
-                                    return money;
+                                    data.setZkl("100");
+                                    data.setRealmoney(money.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                                    return data;
                                 }
                             }
                         }
@@ -170,14 +192,19 @@ public  class  Realmoneydata
                             zkmoney = item.getMaxzkje();
                         }
                         realmoney = money.subtract(zkmoney).setScale(2, BigDecimal.ROUND_HALF_UP);
-                        return realmoney;
+                        data.setZkl(String.valueOf(item.getZkl()));
+                        data.setRealmoney(realmoney.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+                        return data;
                     }
                 }
             }
         } catch (Exception ex) {
             logger.error(ex);
         }
-        return money.setScale(2, BigDecimal.ROUND_HALF_UP);
+        data.setZkl("100");
+        data.setSkfs("-1");
+        data.setRealmoney(money.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        return data;//money.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     /*

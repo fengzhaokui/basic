@@ -15,7 +15,7 @@ mybatis:
 dyaccessKeyId: 23765252
 dyaccessKeySecret: 0463628d1cf98086c51ba8d3d8e49eca
 dyurl: "http://gw.api.taobao.com/router/rest"
-dySmsTemplateCode: "SMS_62920148"
+dySmsTemplateCode: "SMS_124465038"
 #aes加解密密钥
 aeskey: "FHhPatHL4DF8link"
 #redis 数据库

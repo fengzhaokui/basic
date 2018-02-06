@@ -666,7 +666,7 @@ public class JHWXController {
         if (rdata != null) {
             String data = rdata.getData();
             logger.info("收到：" + data);
-           // data = AESCrypt.decryptAES(data);
+           data = AESCrypt.decryptAES(data);
             if(StringUtil.strisnull(data))
             {
                 logger.info("解密失败");
