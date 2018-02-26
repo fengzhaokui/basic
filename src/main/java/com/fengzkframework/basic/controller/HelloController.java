@@ -33,10 +33,10 @@ public class HelloController {
     public String say(@RequestParam(value = "id", required = false, defaultValue = "0") Integer myId) {
 //        RedisHelper redis=new RedisHelper();
 //       List<String> keys= redis.GetAllRedisKeys();
-        MALLDEF malldef=new MALLDEF();
-        malldef.setYttype(0);
-       // malldef.setCityid(2);
-        List<MALLDEF> list=malldefMapper.selectByytandcity2(malldef);
+//        MALLDEF malldef=new MALLDEF();
+//        malldef.setYttype(0);
+//       // malldef.setCityid(2);
+//        List<MALLDEF> list=malldefMapper.selectByytandcity2(malldef);
         return "ok";// + myId +keys.toString();
 //        return girlProperties.getCupSize();
     }

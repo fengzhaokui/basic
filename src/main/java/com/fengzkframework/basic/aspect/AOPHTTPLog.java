@@ -73,15 +73,15 @@ public class AOPHTTPLog {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 		StringBuffer url = request.getRequestURL();
-		String str="【接口返回】" +pjp.getSignature()+"返回值"+gson.toJson(result);
-		logger.info(str);
+		String str=url+"【接口返回】" +pjp.getSignature()+"返回值"+gson.toJson(result);
+		//logger.info(str);
 		long startTime = (Long) request.getAttribute("startTime");
 		long endTime = System.currentTimeMillis();
 		long executeTime = endTime - startTime;
 		//if (handler instanceof HandlerMethod) {
 		StringBuilder sb = new StringBuilder(1000);
-		sb.append(url + "接口耗时:").append(executeTime).append("ms").append("\n");
-		logger.info(sb.toString());
+		sb.append( "[接口耗时:]").append(executeTime).append("ms").append("\n");
+		logger.info(str+sb.toString());
 		return result;
 	}
 

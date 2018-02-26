@@ -125,4 +125,23 @@ public class HttpService {
         logger.info("c#返回："+gson.toJson(aa));
         return aa;
     }
+    /*
+    支持url参数+boby参数
+     */
+    public  ResultData PostServiceAll(String argurl,String json,String argcs)
+    {
+        //请求地址
+        String url = baseurl+argurl+wxtoken+argcs;
+        logger.info("c#请求："+url);
+        HttpHeaders headers = new HttpHeaders();
+        MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+        headers.setContentType(type);
+        headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+        // String jsonstr= JsonUtils.hashMap2Json(map);
+        HttpEntity<String> formEntity = new HttpEntity<String>(json, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResultData aa=  restTemplate.postForObject(url,formEntity, ResultData.class);
+        logger.info("c#返回："+gson.toJson(aa));
+        return aa;
+    }
 }

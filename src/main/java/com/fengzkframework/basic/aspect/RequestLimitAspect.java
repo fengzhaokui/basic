@@ -36,7 +36,8 @@ public class RequestLimitAspect {
 //    @Before("execution(* com.fengzkframework.basic.controller..*(..)) && @annotation(limit)")
 //    public void requestLimit(JoinPoint joinpoint, RequestLimit limit) {
 
-    @Before("execution(* com.fengzkframework.basic.controller..*(..))")
+    //因为没有装redis 暂时去掉
+    //@Before("execution(* com.fengzkframework.basic.controller..*(..))")
     public void requestLimit(JoinPoint joinpoint) {
         long count=0;
         try {

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -479,7 +480,9 @@ public class JHWXController {
             indata.setOrderid(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+ StringUtil.randomString(6));
             int paytype=indata.getCzfs()+1;
             indata.setPaytype(String.valueOf(paytype));
-            indata.setGoodsname("优惠券");
+            if(StringUtil.strisnull(indata.getGoodsname())) {
+                indata.setGoodsname("优惠券");
+            }
             ResultData paydata = payService.cardpay(indata);
             if (paydata.getRetcode().equals("0")) {
                 String paymsdata = AESCrypt.decryptAES(paydata.getData().toString());
@@ -488,7 +491,12 @@ public class JHWXController {
                     ResultData mrd=null;
                     try {
                        //付款成功，发券
-                        mrd= hs.PostService("cashbuycoupon",data);
+                        String realmoney=map.get("realamount").toString();
+                        realmoney="&realmoney="+realmoney;
+//                        indata.setRealamount(realmoney);
+//                        String ndata=gson.toJson(indata);
+                        mrd= hs.PostServiceAll("cashbuycoupon",data,realmoney);
+
                     }
                     finally {
                         if(mrd==null||(!mrd.getRetcode().equals("00")))//退款；

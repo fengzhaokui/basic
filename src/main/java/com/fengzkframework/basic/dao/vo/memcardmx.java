@@ -34,6 +34,16 @@ public class memcardmx {
     private Integer jlbh;
     private String sktno;
 
+    public String getRealamount() {
+        return realamount;
+    }
+
+    public void setRealamount(String realamount) {
+        this.realamount = realamount;
+    }
+
+    private String realamount;
+
     public Integer getOldid() {
         return oldid;
     }
