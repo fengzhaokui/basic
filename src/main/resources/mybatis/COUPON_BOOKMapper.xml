@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.COUPON_BOOKMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.COUPON_BOOK">
+    <id column="SERIALID" jdbcType="DECIMAL" property="serialid" />
+    <result column="SHEETTYPE" jdbcType="DECIMAL" property="sheettype" />
+    <result column="SHEETTYPENAME" jdbcType="VARCHAR" property="sheettypename" />
+    <result column="JZRQ" jdbcType="TIMESTAMP" property="jzrq" />
+    <result column="MALLID" jdbcType="DECIMAL" property="mallid" />
+    <result column="LOCATION" jdbcType="VARCHAR" property="location" />
+    <result column="SHEETID" jdbcType="VARCHAR" property="sheetid" />
+    <result column="FQSHOPID" jdbcType="DECIMAL" property="fqshopid" />
+    <result column="YQSHOPID" jdbcType="DECIMAL" property="yqshopid" />
+    <result column="COUPONTYPEID" jdbcType="DECIMAL" property="coupontypeid" />
+    <result column="YHQID" jdbcType="DECIMAL" property="yhqid" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="DIRECTION" jdbcType="DECIMAL" property="direction" />
+    <result column="VALUE" jdbcType="DECIMAL" property="value" />
+    <result column="XJVALUE" jdbcType="DECIMAL" property="xjvalue" />
+    <result column="BFJE" jdbcType="DECIMAL" property="bfje" />
+    <result column="JE" jdbcType="DECIMAL" property="je" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SERIALID, SHEETTYPE, SHEETTYPENAME, JZRQ, MALLID, LOCATION, SHEETID, FQSHOPID, YQSHOPID, 
+    COUPONTYPEID, YHQID, CODE, DIRECTION, VALUE, XJVALUE, BFJE, JE, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from COUPON_BOOK
+    where SERIALID = #{serialid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from COUPON_BOOK
+    where SERIALID = #{serialid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.COUPON_BOOK">
+    insert into COUPON_BOOK (SERIALID, SHEETTYPE, SHEETTYPENAME, 
+      JZRQ, MALLID, LOCATION, 
+      SHEETID, FQSHOPID, YQSHOPID, 
+      COUPONTYPEID, YHQID, CODE, 
+      DIRECTION, VALUE, XJVALUE, 
+      BFJE, JE, STATUS)
+    values (#{serialid,jdbcType=DECIMAL}, #{sheettype,jdbcType=DECIMAL}, #{sheettypename,jdbcType=VARCHAR}, 
+      #{jzrq,jdbcType=TIMESTAMP}, #{mallid,jdbcType=DECIMAL}, #{location,jdbcType=VARCHAR}, 
+      #{sheetid,jdbcType=VARCHAR}, #{fqshopid,jdbcType=DECIMAL}, #{yqshopid,jdbcType=DECIMAL}, 
+      #{coupontypeid,jdbcType=DECIMAL}, #{yhqid,jdbcType=DECIMAL}, #{code,jdbcType=VARCHAR}, 
+      #{direction,jdbcType=DECIMAL}, #{value,jdbcType=DECIMAL}, #{xjvalue,jdbcType=DECIMAL}, 
+      #{bfje,jdbcType=DECIMAL}, #{je,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.COUPON_BOOK">
+    insert into COUPON_BOOK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serialid != null">
+        SERIALID,
+      </if>
+      <if test="sheettype != null">
+        SHEETTYPE,
+      </if>
+      <if test="sheettypename != null">
+        SHEETTYPENAME,
+      </if>
+      <if test="jzrq != null">
+        JZRQ,
+      </if>
+      <if test="mallid != null">
+        MALLID,
+      </if>
+      <if test="location != null">
+        LOCATION,
+      </if>
+      <if test="sheetid != null">
+        SHEETID,
+      </if>
+      <if test="fqshopid != null">
+        FQSHOPID,
+      </if>
+      <if test="yqshopid != null">
+        YQSHOPID,
+      </if>
+      <if test="coupontypeid != null">
+        COUPONTYPEID,
+      </if>
+      <if test="yhqid != null">
+        YHQID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="direction != null">
+        DIRECTION,
+      </if>
+      <if test="value != null">
+        VALUE,
+      </if>
+      <if test="xjvalue != null">
+        XJVALUE,
+      </if>
+      <if test="bfje != null">
+        BFJE,
+      </if>
+      <if test="je != null">
+        JE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serialid != null">
+        #{serialid,jdbcType=DECIMAL},
+      </if>
+      <if test="sheettype != null">
+        #{sheettype,jdbcType=DECIMAL},
+      </if>
+      <if test="sheettypename != null">
+        #{sheettypename,jdbcType=VARCHAR},
+      </if>
+      <if test="jzrq != null">
+        #{jzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallid != null">
+        #{mallid,jdbcType=DECIMAL},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetid != null">
+        #{sheetid,jdbcType=VARCHAR},
+      </if>
+      <if test="fqshopid != null">
+        #{fqshopid,jdbcType=DECIMAL},
+      </if>
+      <if test="yqshopid != null">
+        #{yqshopid,jdbcType=DECIMAL},
+      </if>
+      <if test="coupontypeid != null">
+        #{coupontypeid,jdbcType=DECIMAL},
+      </if>
+      <if test="yhqid != null">
+        #{yhqid,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="xjvalue != null">
+        #{xjvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="bfje != null">
+        #{bfje,jdbcType=DECIMAL},
+      </if>
+      <if test="je != null">
+        #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.COUPON_BOOK">
+    update COUPON_BOOK
+    <set>
+      <if test="sheettype != null">
+        SHEETTYPE = #{sheettype,jdbcType=DECIMAL},
+      </if>
+      <if test="sheettypename != null">
+        SHEETTYPENAME = #{sheettypename,jdbcType=VARCHAR},
+      </if>
+      <if test="jzrq != null">
+        JZRQ = #{jzrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mallid != null">
+        MALLID = #{mallid,jdbcType=DECIMAL},
+      </if>
+      <if test="location != null">
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetid != null">
+        SHEETID = #{sheetid,jdbcType=VARCHAR},
+      </if>
+      <if test="fqshopid != null">
+        FQSHOPID = #{fqshopid,jdbcType=DECIMAL},
+      </if>
+      <if test="yqshopid != null">
+        YQSHOPID = #{yqshopid,jdbcType=DECIMAL},
+      </if>
+      <if test="coupontypeid != null">
+        COUPONTYPEID = #{coupontypeid,jdbcType=DECIMAL},
+      </if>
+      <if test="yhqid != null">
+        YHQID = #{yhqid,jdbcType=DECIMAL},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null">
+        DIRECTION = #{direction,jdbcType=DECIMAL},
+      </if>
+      <if test="value != null">
+        VALUE = #{value,jdbcType=DECIMAL},
+      </if>
+      <if test="xjvalue != null">
+        XJVALUE = #{xjvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="bfje != null">
+        BFJE = #{bfje,jdbcType=DECIMAL},
+      </if>
+      <if test="je != null">
+        JE = #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SERIALID = #{serialid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.COUPON_BOOK">
+    update COUPON_BOOK
+    set SHEETTYPE = #{sheettype,jdbcType=DECIMAL},
+      SHEETTYPENAME = #{sheettypename,jdbcType=VARCHAR},
+      JZRQ = #{jzrq,jdbcType=TIMESTAMP},
+      MALLID = #{mallid,jdbcType=DECIMAL},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      SHEETID = #{sheetid,jdbcType=VARCHAR},
+      FQSHOPID = #{fqshopid,jdbcType=DECIMAL},
+      YQSHOPID = #{yqshopid,jdbcType=DECIMAL},
+      COUPONTYPEID = #{coupontypeid,jdbcType=DECIMAL},
+      YHQID = #{yhqid,jdbcType=DECIMAL},
+      CODE = #{code,jdbcType=VARCHAR},
+      DIRECTION = #{direction,jdbcType=DECIMAL},
+      VALUE = #{value,jdbcType=DECIMAL},
+      XJVALUE = #{xjvalue,jdbcType=DECIMAL},
+      BFJE = #{bfje,jdbcType=DECIMAL},
+      JE = #{je,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where SERIALID = #{serialid,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

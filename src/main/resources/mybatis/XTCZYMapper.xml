@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.XTCZYMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.XTCZY">
+    <id column="PERSON_ID" jdbcType="DECIMAL" property="personId" />
+    <result column="OPER_STATION" jdbcType="VARCHAR" property="operStation" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.fengzkframework.basic.dao.vo.XTCZY">
+    <result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PERSON_ID, OPER_STATION
+  </sql>
+  <sql id="Blob_Column_List">
+    LOGIN_PASSWORD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from XTCZY
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from XTCZY
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.XTCZY">
+    insert into XTCZY (PERSON_ID, OPER_STATION, LOGIN_PASSWORD
+      )
+    values (#{personId,jdbcType=DECIMAL}, #{operStation,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.XTCZY">
+    insert into XTCZY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        PERSON_ID,
+      </if>
+      <if test="operStation != null">
+        OPER_STATION,
+      </if>
+      <if test="loginPassword != null">
+        LOGIN_PASSWORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=DECIMAL},
+      </if>
+      <if test="operStation != null">
+        #{operStation,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        #{loginPassword,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.XTCZY">
+    update XTCZY
+    <set>
+      <if test="operStation != null">
+        OPER_STATION = #{operStation,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null">
+        LOGIN_PASSWORD = #{loginPassword,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fengzkframework.basic.dao.vo.XTCZY">
+    update XTCZY
+    set OPER_STATION = #{operStation,jdbcType=VARCHAR},
+      LOGIN_PASSWORD = #{loginPassword,jdbcType=VARBINARY}
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.XTCZY">
+    update XTCZY
+    set OPER_STATION = #{operStation,jdbcType=VARCHAR}
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

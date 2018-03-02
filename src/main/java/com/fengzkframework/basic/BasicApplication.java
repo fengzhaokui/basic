@@ -16,13 +16,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@EnableDiscoveryClient
 @SpringBootApplication
 @ServletComponentScan//处理过滤器
-@EnableCaching// 开启缓存，需要显示的指定
+//@EnableCaching// 开启缓存，需要显示的指定
 //@EnableEurekaClient
 public class BasicApplication extends SpringBootServletInitializer{
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
 		return builder.sources(BasicApplication.class);
 	}
+//public class BasicApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BasicApplication.class, args);
 		System.out.print("启动成功");

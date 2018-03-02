@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.PERSONINFOMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.PERSONINFO">
+    <id column="PERSON_ID" jdbcType="DECIMAL" property="personId" />
+    <result column="PERSON_NAME" jdbcType="VARCHAR" property="personName" />
+    <result column="RYDM" jdbcType="VARCHAR" property="rydm" />
+    <result column="DEPTID" jdbcType="DECIMAL" property="deptid" />
+    <result column="WORK_TYPE" jdbcType="DECIMAL" property="workType" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="WXOPENID" jdbcType="VARCHAR" property="wxopenid" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="SUPERADMIN" jdbcType="DECIMAL" property="superadmin" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PERSON_ID, PERSON_NAME, RYDM, DEPTID, WORK_TYPE, STATUS, WXOPENID, MOBILE, SUPERADMIN
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PERSONINFO
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectBycode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from PERSONINFO
+    where RYDM = #{rydm,jdbcType=VARCHAR} and STATUS!=1 AND DEPTID IS NOT NULL
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PERSONINFO
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.PERSONINFO">
+    insert into PERSONINFO (PERSON_ID, PERSON_NAME, RYDM, 
+      DEPTID, WORK_TYPE, STATUS, 
+      WXOPENID, MOBILE, SUPERADMIN
+      )
+    values (#{personId,jdbcType=DECIMAL}, #{personName,jdbcType=VARCHAR}, #{rydm,jdbcType=VARCHAR}, 
+      #{deptid,jdbcType=DECIMAL}, #{workType,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{wxopenid,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{superadmin,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.PERSONINFO">
+    insert into PERSONINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        PERSON_ID,
+      </if>
+      <if test="personName != null">
+        PERSON_NAME,
+      </if>
+      <if test="rydm != null">
+        RYDM,
+      </if>
+      <if test="deptid != null">
+        DEPTID,
+      </if>
+      <if test="workType != null">
+        WORK_TYPE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="wxopenid != null">
+        WXOPENID,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="superadmin != null">
+        SUPERADMIN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="personId != null">
+        #{personId,jdbcType=DECIMAL},
+      </if>
+      <if test="personName != null">
+        #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="rydm != null">
+        #{rydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null">
+        #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="workType != null">
+        #{workType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="wxopenid != null">
+        #{wxopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="superadmin != null">
+        #{superadmin,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.PERSONINFO">
+    update PERSONINFO
+    <set>
+      <if test="personName != null">
+        PERSON_NAME = #{personName,jdbcType=VARCHAR},
+      </if>
+      <if test="rydm != null">
+        RYDM = #{rydm,jdbcType=VARCHAR},
+      </if>
+      <if test="deptid != null">
+        DEPTID = #{deptid,jdbcType=DECIMAL},
+      </if>
+      <if test="workType != null">
+        WORK_TYPE = #{workType,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="wxopenid != null">
+        WXOPENID = #{wxopenid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="superadmin != null">
+        SUPERADMIN = #{superadmin,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.PERSONINFO">
+    update PERSONINFO
+    set PERSON_NAME = #{personName,jdbcType=VARCHAR},
+      RYDM = #{rydm,jdbcType=VARCHAR},
+      DEPTID = #{deptid,jdbcType=DECIMAL},
+      WORK_TYPE = #{workType,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      WXOPENID = #{wxopenid,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      SUPERADMIN = #{superadmin,jdbcType=DECIMAL}
+    where PERSON_ID = #{personId,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

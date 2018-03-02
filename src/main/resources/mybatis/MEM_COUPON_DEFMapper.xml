@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.MEM_COUPON_DEFMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.MEM_COUPON_DEF">
+    <id column="YHQID" jdbcType="DECIMAL" property="yhqid" />
+    <result column="YHQMC" jdbcType="VARCHAR" property="yhqmc" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="FEE" jdbcType="DECIMAL" property="fee" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="KSRQ" jdbcType="TIMESTAMP" property="ksrq" />
+    <result column="JSRQ" jdbcType="TIMESTAMP" property="jsrq" />
+    <result column="FLAG_IGNORE_RULE" jdbcType="DECIMAL" property="flagIgnoreRule" />
+    <result column="SIEBEL_ID" jdbcType="DECIMAL" property="siebelId" />
+    <result column="WEIXINMC" jdbcType="VARCHAR" property="weixinmc" />
+    <result column="WEIXINCONTENT" jdbcType="VARCHAR" property="weixincontent" />
+    <result column="PHOTOPATH" jdbcType="VARCHAR" property="photopath" />
+    <result column="PHOTOPATH2" jdbcType="VARCHAR" property="photopath2" />
+    <result column="MULTI_FLAG" jdbcType="DECIMAL" property="multiFlag" />
+    <result column="ZXRATE" jdbcType="DECIMAL" property="zxrate" />
+    <result column="ZXVALUE" jdbcType="DECIMAL" property="zxvalue" />
+    <result column="USETYPE" jdbcType="DECIMAL" property="usetype" />
+    <result column="SHOPID" jdbcType="DECIMAL" property="shopid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    YHQID, YHQMC, TYPE, TITLE, FEE, CONTENT, KSRQ, JSRQ, FLAG_IGNORE_RULE, SIEBEL_ID, 
+    WEIXINMC, WEIXINCONTENT, PHOTOPATH, PHOTOPATH2, MULTI_FLAG, ZXRATE, ZXVALUE,USETYPE,SHOPID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEM_COUPON_DEF
+    where YHQID = #{yhqid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from MEM_COUPON_DEF
+    where YHQID = #{yhqid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_DEF">
+    insert into MEM_COUPON_DEF (YHQID, YHQMC, TYPE, 
+      TITLE, FEE, CONTENT, 
+      KSRQ, JSRQ, FLAG_IGNORE_RULE, 
+      SIEBEL_ID, WEIXINMC, WEIXINCONTENT, 
+      PHOTOPATH, PHOTOPATH2, MULTI_FLAG, 
+      ZXRATE, ZXVALUE)
+    values (#{yhqid,jdbcType=DECIMAL}, #{yhqmc,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{title,jdbcType=VARCHAR}, #{fee,jdbcType=DECIMAL}, #{content,jdbcType=VARCHAR}, 
+      #{ksrq,jdbcType=TIMESTAMP}, #{jsrq,jdbcType=TIMESTAMP}, #{flagIgnoreRule,jdbcType=DECIMAL}, 
+      #{siebelId,jdbcType=DECIMAL}, #{weixinmc,jdbcType=VARCHAR}, #{weixincontent,jdbcType=VARCHAR}, 
+      #{photopath,jdbcType=VARCHAR}, #{photopath2,jdbcType=VARCHAR}, #{multiFlag,jdbcType=DECIMAL}, 
+      #{zxrate,jdbcType=DECIMAL}, #{zxvalue,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_DEF">
+    insert into MEM_COUPON_DEF
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="yhqid != null">
+        YHQID,
+      </if>
+      <if test="yhqmc != null">
+        YHQMC,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="fee != null">
+        FEE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="ksrq != null">
+        KSRQ,
+      </if>
+      <if test="jsrq != null">
+        JSRQ,
+      </if>
+      <if test="flagIgnoreRule != null">
+        FLAG_IGNORE_RULE,
+      </if>
+      <if test="siebelId != null">
+        SIEBEL_ID,
+      </if>
+      <if test="weixinmc != null">
+        WEIXINMC,
+      </if>
+      <if test="weixincontent != null">
+        WEIXINCONTENT,
+      </if>
+      <if test="photopath != null">
+        PHOTOPATH,
+      </if>
+      <if test="photopath2 != null">
+        PHOTOPATH2,
+      </if>
+      <if test="multiFlag != null">
+        MULTI_FLAG,
+      </if>
+      <if test="zxrate != null">
+        ZXRATE,
+      </if>
+      <if test="zxvalue != null">
+        ZXVALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="yhqid != null">
+        #{yhqid,jdbcType=DECIMAL},
+      </if>
+      <if test="yhqmc != null">
+        #{yhqmc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ksrq != null">
+        #{ksrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jsrq != null">
+        #{jsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flagIgnoreRule != null">
+        #{flagIgnoreRule,jdbcType=DECIMAL},
+      </if>
+      <if test="siebelId != null">
+        #{siebelId,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinmc != null">
+        #{weixinmc,jdbcType=VARCHAR},
+      </if>
+      <if test="weixincontent != null">
+        #{weixincontent,jdbcType=VARCHAR},
+      </if>
+      <if test="photopath != null">
+        #{photopath,jdbcType=VARCHAR},
+      </if>
+      <if test="photopath2 != null">
+        #{photopath2,jdbcType=VARCHAR},
+      </if>
+      <if test="multiFlag != null">
+        #{multiFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="zxrate != null">
+        #{zxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="zxvalue != null">
+        #{zxvalue,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_DEF">
+    update MEM_COUPON_DEF
+    <set>
+      <if test="yhqmc != null">
+        YHQMC = #{yhqmc,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        FEE = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="ksrq != null">
+        KSRQ = #{ksrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jsrq != null">
+        JSRQ = #{jsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flagIgnoreRule != null">
+        FLAG_IGNORE_RULE = #{flagIgnoreRule,jdbcType=DECIMAL},
+      </if>
+      <if test="siebelId != null">
+        SIEBEL_ID = #{siebelId,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinmc != null">
+        WEIXINMC = #{weixinmc,jdbcType=VARCHAR},
+      </if>
+      <if test="weixincontent != null">
+        WEIXINCONTENT = #{weixincontent,jdbcType=VARCHAR},
+      </if>
+      <if test="photopath != null">
+        PHOTOPATH = #{photopath,jdbcType=VARCHAR},
+      </if>
+      <if test="photopath2 != null">
+        PHOTOPATH2 = #{photopath2,jdbcType=VARCHAR},
+      </if>
+      <if test="multiFlag != null">
+        MULTI_FLAG = #{multiFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="zxrate != null">
+        ZXRATE = #{zxrate,jdbcType=DECIMAL},
+      </if>
+      <if test="zxvalue != null">
+        ZXVALUE = #{zxvalue,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where YHQID = #{yhqid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_DEF">
+    update MEM_COUPON_DEF
+    set YHQMC = #{yhqmc,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      TITLE = #{title,jdbcType=VARCHAR},
+      FEE = #{fee,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      KSRQ = #{ksrq,jdbcType=TIMESTAMP},
+      JSRQ = #{jsrq,jdbcType=TIMESTAMP},
+      FLAG_IGNORE_RULE = #{flagIgnoreRule,jdbcType=DECIMAL},
+      SIEBEL_ID = #{siebelId,jdbcType=DECIMAL},
+      WEIXINMC = #{weixinmc,jdbcType=VARCHAR},
+      WEIXINCONTENT = #{weixincontent,jdbcType=VARCHAR},
+      PHOTOPATH = #{photopath,jdbcType=VARCHAR},
+      PHOTOPATH2 = #{photopath2,jdbcType=VARCHAR},
+      MULTI_FLAG = #{multiFlag,jdbcType=DECIMAL},
+      ZXRATE = #{zxrate,jdbcType=DECIMAL},
+      ZXVALUE = #{zxvalue,jdbcType=DECIMAL}
+    where YHQID = #{yhqid,jdbcType=DECIMAL}
+  </update>
+
+</mapper>

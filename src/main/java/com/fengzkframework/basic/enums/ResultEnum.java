@@ -20,6 +20,12 @@ public enum ResultEnum {
     PWDISNOEXIST("15", "密码不存在,无法重置密码"),
     PWDISERROR("16", "旧密码错误,无法重置密码"),
     UPPWDFAIL("17", "修改密码失败"),
+    PWDCW("18", "密码错误,请重新输入"),
+    SHHYOPENIDCW("19", "请重新登录"),
+    COUPONNOTEXIST("20", "优惠券不可用"),
+    COUPONNOMONEY("21", "优惠券余额不足"),
+    COUPONNOCANUSE("21", "优惠券不是该店铺不能使用"),
+    USEDCOUPONFAIL("22", "用券失败"),
     UNKNOWERROR("100", "未知错误"),
     NODATA("99", "没有数据"),
 

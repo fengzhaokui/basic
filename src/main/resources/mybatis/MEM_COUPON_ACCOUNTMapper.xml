@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.MEM_COUPON_ACCOUNTMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNT">
+    <id column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <id column="YHQID" jdbcType="DECIMAL" property="yhqid" />
+    <id column="JSRQ" jdbcType="TIMESTAMP" property="jsrq" />
+    <id column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="JE" jdbcType="DECIMAL" property="je" />
+    <result column="SHORTURL" jdbcType="VARCHAR" property="shorturl" />
+    <result column="MALLID" jdbcType="DECIMAL" property="mallid" />
+    <result column="CXTYPE" jdbcType="DECIMAL" property="cxtype" />
+    <result column="HDID" jdbcType="DECIMAL" property="hdid" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="AMT" jdbcType="DECIMAL" property="amt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    HYID, YHQID, JSRQ, CODE, JE, SHORTURL, MALLID, CXTYPE, HDID, STATUS, AMT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNTKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MEM_COUPON_ACCOUNT
+    where HYID = #{hyid,jdbcType=DECIMAL}
+      and YHQID = #{yhqid,jdbcType=DECIMAL}
+      and JSRQ = #{jsrq,jdbcType=TIMESTAMP}
+      and CODE = #{code,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBycode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEM_COUPON_ACCOUNT
+    where CODE = #{code,jdbcType=VARCHAR} AND STATUS IN(1,2) AND  JE>0
+    <![CDATA[ and to_char( SYSDATE,'yyyymmdd')<=to_char(jsrq,'yyyymmdd') ]]>
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNTKey">
+    delete from MEM_COUPON_ACCOUNT
+    where HYID = #{hyid,jdbcType=DECIMAL}
+      and YHQID = #{yhqid,jdbcType=DECIMAL}
+      and JSRQ = #{jsrq,jdbcType=TIMESTAMP}
+      and CODE = #{code,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNT">
+    insert into MEM_COUPON_ACCOUNT (HYID, YHQID, JSRQ, 
+      CODE, JE, SHORTURL, 
+      MALLID, CXTYPE, HDID, 
+      STATUS, AMT)
+    values (#{hyid,jdbcType=DECIMAL}, #{yhqid,jdbcType=DECIMAL}, #{jsrq,jdbcType=TIMESTAMP}, 
+      #{code,jdbcType=VARCHAR}, #{je,jdbcType=DECIMAL}, #{shorturl,jdbcType=VARCHAR}, 
+      #{mallid,jdbcType=DECIMAL}, #{cxtype,jdbcType=DECIMAL}, #{hdid,jdbcType=DECIMAL}, 
+      #{status,jdbcType=DECIMAL}, #{amt,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNT">
+    insert into MEM_COUPON_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        HYID,
+      </if>
+      <if test="yhqid != null">
+        YHQID,
+      </if>
+      <if test="jsrq != null">
+        JSRQ,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="je != null">
+        JE,
+      </if>
+      <if test="shorturl != null">
+        SHORTURL,
+      </if>
+      <if test="mallid != null">
+        MALLID,
+      </if>
+      <if test="cxtype != null">
+        CXTYPE,
+      </if>
+      <if test="hdid != null">
+        HDID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="amt != null">
+        AMT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hyid != null">
+        #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="yhqid != null">
+        #{yhqid,jdbcType=DECIMAL},
+      </if>
+      <if test="jsrq != null">
+        #{jsrq,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="je != null">
+        #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="shorturl != null">
+        #{shorturl,jdbcType=VARCHAR},
+      </if>
+      <if test="mallid != null">
+        #{mallid,jdbcType=DECIMAL},
+      </if>
+      <if test="cxtype != null">
+        #{cxtype,jdbcType=DECIMAL},
+      </if>
+      <if test="hdid != null">
+        #{hdid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="amt != null">
+        #{amt,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNT">
+    update MEM_COUPON_ACCOUNT
+    <set>
+      <if test="je != null">
+        JE = #{je,jdbcType=DECIMAL},
+      </if>
+      <if test="shorturl != null">
+        SHORTURL = #{shorturl,jdbcType=VARCHAR},
+      </if>
+      <if test="mallid != null">
+        MALLID = #{mallid,jdbcType=DECIMAL},
+      </if>
+      <if test="cxtype != null">
+        CXTYPE = #{cxtype,jdbcType=DECIMAL},
+      </if>
+      <if test="hdid != null">
+        HDID = #{hdid,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="amt != null">
+        AMT = #{amt,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where HYID = #{hyid,jdbcType=DECIMAL}
+      and YHQID = #{yhqid,jdbcType=DECIMAL}
+      and JSRQ = #{jsrq,jdbcType=TIMESTAMP}
+      and CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.MEM_COUPON_ACCOUNT">
+    update MEM_COUPON_ACCOUNT
+    set JE = #{je,jdbcType=DECIMAL},
+      SHORTURL = #{shorturl,jdbcType=VARCHAR},
+      MALLID = #{mallid,jdbcType=DECIMAL},
+      CXTYPE = #{cxtype,jdbcType=DECIMAL},
+      HDID = #{hdid,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      AMT = #{amt,jdbcType=DECIMAL}
+    where HYID = #{hyid,jdbcType=DECIMAL}
+      and YHQID = #{yhqid,jdbcType=DECIMAL}
+      and JSRQ = #{jsrq,jdbcType=TIMESTAMP}
+      and CODE = #{code,jdbcType=VARCHAR}
+  </update>
+
+</mapper>
