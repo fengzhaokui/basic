@@ -18,7 +18,7 @@ public class AESCryptTest {
     @Test
     public void decryptAES() {
 
-       String str= AESCrypt.decryptAES("G3C88l5ag1Tm4oQLgsNs38FTmAE//Q1A5FFJSlgz1/bCY2XHrwlCVybZyNx14lmFOr5pP3m54YvLm+9VwPfMM3s1/x25sOPgMSXf4QZu7RA=","FHhPatHL4DF8link");
+       String str= AESCrypt.decryptAES("vKLEDMT0rPiCm5EikWH95ocBiig5O1Fp55rD81Vgbo2wpE2zHb41OGiXFCraec7GzKg0E6vjktyZbR7jjF2d4xKSCDhNcvlig9B7AZCdu96wO3va1acCItCwwcHCeFcsy01uhI7ceVh0+HlqjjWlGw==","FHhPatHL4DF8link");
        System.out.print("解密后"+str);
     }
 }

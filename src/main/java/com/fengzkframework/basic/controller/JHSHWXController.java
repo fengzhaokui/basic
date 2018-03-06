@@ -43,6 +43,40 @@ public class JHSHWXController {
     @Autowired
     MEM_COUPON_DEFMapper memCouponDefMapper;
 
+
+    @PostMapping(value = "/shuserinfo", produces = "application/json")
+    public ResultData shuserinfo(@RequestBody RequestData rdata) throws Exception {
+        if (rdata != null) {
+            String data = rdata.getData();
+            logger.info("收到：" + data);
+            data = AESCrypt.decryptAES(data);
+            if (StringUtil.strisnull(data)) {
+                logger.info("解密失败");
+                return ResultUtil.error(ResultEnum.AESFAIL.getCode(), ResultEnum.AESFAIL.getMsg());
+            }
+            Map<String, String> map = gson.fromJson(data, HashMap.class);
+            String username = map.get("username");
+            String openid = map.get("openid");
+            List<PERSONOPENID> old = personopenidMapper.selectByopenidall(openid);
+            if (old != null) {
+                for(PERSONOPENID item : old)
+                {
+                    if(item.getBj_login()==1) {
+                       item.setUsername(username);
+                        personopenidMapper.updateByPrimaryKeySelective(item);
+                        return ResultUtil.success("");
+                    }
+                }
+            }
+
+        }
+        else {
+            return ResultUtil.error(ResultEnum.UNKONW_ERROR.getCode(), ResultEnum.UNKONW_ERROR.getMsg());
+        }
+        return ResultUtil.error(ResultEnum.SETSHUSERNAMEFAIL.getCode(), ResultEnum.SETSHUSERNAMEFAIL.getMsg());
+    }
+
+
     /*
       商户登录
       personcode,pwd,openid
@@ -73,17 +107,38 @@ public class JHSHWXController {
             if (xtczy != null && xtczy.getLoginPassword().equalsIgnoreCase(pwd)) {
                 PERSONOPENID personopenid = new PERSONOPENID();
                 personopenid.setStatus(0);
+                personopenid.setBj_login(1);
                 personopenid.setOpenid(openid);
                 personopenid.setPersonId(personinfo.getPersonId());
-                PERSONOPENID old = personopenidMapper.selectByPrimaryKey(personopenid);
-                if (old == null) {
-                    int num = personopenidMapper.insert(personopenid);
-                    if (num == 0)//成功
+                List<PERSONOPENID> old = personopenidMapper.selectByopenidall(openid);
+                if (old != null) {
+                    for(PERSONOPENID item : old)
+                    {
+                        if(item.getBj_login()==1) {
+                            item.setBj_login(0);
+                            personopenidMapper.updateByPrimaryKeySelective(item);
+                        }
+                    }
+                }
+                PERSONOPENID oldkeydata= personopenidMapper.selectByPrimaryKey(personopenid);
+                if(oldkeydata==null) {
+                    int num = personopenidMapper.insertSelective(personopenid);
+                    if (num == 0)//插入失败
                     {
                         logger.info("插入PERSONOPENID失败");
                         return ResultUtil.error(ResultEnum.SHHYOPENIDCW.getCode(), ResultEnum.SHHYOPENIDCW.getMsg());
                     }
                 }
+                else
+                {
+                    int num = personopenidMapper.updateByPrimaryKeySelective(personopenid);
+                    if (num == 0)//插入失败
+                    {
+                        logger.info("更新PERSONOPENID失败");
+                        return ResultUtil.error(ResultEnum.SHHYOPENIDCW.getCode(), ResultEnum.SHHYOPENIDCW.getMsg());
+                    }
+                }
+
                 return ResultUtil.success(personinfo.getDeptid());
             } else {
                 logger.info("密码错误");
@@ -105,14 +160,13 @@ public class JHSHWXController {
         if (rdata != null) {
             String data = rdata.getData();
             logger.info("收到：" + data);
-            // data= AESCrypt.decryptAES( data);
+             data= AESCrypt.decryptAES( data);
             if (StringUtil.strisnull(data)) {
                 logger.info("解密失败");
                 return ResultUtil.error(ResultEnum.AESFAIL.getCode(), ResultEnum.AESFAIL.getMsg());
             }
             Map<String, String> map = gson.fromJson(data, HashMap.class);
             String openid = map.get("openid");
-           // String shopid = map.get("shopid");
             String couponcode = map.get("couponcode");
             String money = map.get("money");
 

@@ -18,6 +18,8 @@ public interface PERSONOPENIDMapper {
 
     List<PERSONOPENID> selectByopenid(PERSONOPENIDKey key);
 
+    List<PERSONOPENID> selectByopenidall(String openid);
+
     int updateByPrimaryKeySelective(PERSONOPENID record);
 
     int updateByPrimaryKey(PERSONOPENID record);
