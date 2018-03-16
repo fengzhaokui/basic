@@ -66,6 +66,7 @@ public class HelloController {
 
         //oinfo.setToken(token.getTokenguid());
         tokenService.insert(token);
+
     }
 
     @GetMapping(value = "/skt")

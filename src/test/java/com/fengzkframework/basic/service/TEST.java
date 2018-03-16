@@ -38,7 +38,11 @@ public class TEST {
 //          // doneSignal.await();
 //        }
        // getshhylogin();
-        concurrenceTest();
+       // concurrenceTest();
+//        String ss="512s";
+//        System.out.println(ss.substring(0,3));
+       // HashSet
+        List<String> data=Collections.synchronizedList(new ArrayList<String>());
     }
 
 

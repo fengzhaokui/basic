@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengzkframework.basic.dao.LMXQJLMapper">
+  <resultMap id="BaseResultMap" type="com.fengzkframework.basic.dao.vo.LMXQJL">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="OPID" jdbcType="VARCHAR" property="opid" />
+    <result column="QH" jdbcType="VARCHAR" property="qh" />
+    <result column="CREATETIME" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="HYID" jdbcType="DECIMAL" property="hyid" />
+    <result column="USETYPE" jdbcType="DECIMAL" property="usetype" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="SHOPID" jdbcType="DECIMAL" property="shopid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, OPID, QH, CREATETIME, HYID, USETYPE, AMOUNT, SHOPID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LMXQJL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByopenid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from LMXQJL
+    where OPID = #{openid,jdbcType=DECIMAL} ORDER  BY CREATETIME DESC
+  </select>
+  <select id="selectByshopid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from LMXQJL
+    where SHOPID = #{shopid,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByyhqid" parameterType="java.lang.Long" resultType="java.lang.Double">
+    select
+    SUM (AMOUNT)
+    from LMXQJL A,mem_coupon_account b
+    where B.YHQID = #{yhqid,jdbcType=DECIMAL} AND a.qh=b.code
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from LMXQJL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.fengzkframework.basic.dao.vo.LMXQJL">
+    <!-- 自动递增id -->
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+      select nvl(max(id),0)+1 as id from LMXQJL
+    </selectKey>
+    insert into LMXQJL (ID, OPID, QH, 
+      CREATETIME, HYID, USETYPE, 
+      AMOUNT, SHOPID)
+    values (#{id,jdbcType=DECIMAL}, #{opid,jdbcType=VARCHAR}, #{qh,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{hyid,jdbcType=DECIMAL}, #{usetype,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{shopid,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengzkframework.basic.dao.vo.LMXQJL">
+    insert into LMXQJL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="opid != null">
+        OPID,
+      </if>
+      <if test="qh != null">
+        QH,
+      </if>
+      <if test="createtime != null">
+        CREATETIME,
+      </if>
+      <if test="hyid != null">
+        HYID,
+      </if>
+      <if test="usetype != null">
+        USETYPE,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="shopid != null">
+        SHOPID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="opid != null">
+        #{opid,jdbcType=VARCHAR},
+      </if>
+      <if test="qh != null">
+        #{qh,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hyid != null">
+        #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="usetype != null">
+        #{usetype,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengzkframework.basic.dao.vo.LMXQJL">
+    update LMXQJL
+    <set>
+      <if test="opid != null">
+        OPID = #{opid,jdbcType=VARCHAR},
+      </if>
+      <if test="qh != null">
+        QH = #{qh,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hyid != null">
+        HYID = #{hyid,jdbcType=DECIMAL},
+      </if>
+      <if test="usetype != null">
+        USETYPE = #{usetype,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="shopid != null">
+        SHOPID = #{shopid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengzkframework.basic.dao.vo.LMXQJL">
+    update LMXQJL
+    set OPID = #{opid,jdbcType=VARCHAR},
+      QH = #{qh,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      HYID = #{hyid,jdbcType=DECIMAL},
+      USETYPE = #{usetype,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      SHOPID = #{shopid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

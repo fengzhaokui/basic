@@ -34,6 +34,13 @@ public class AESCrypt {
 	{
 		this.key=key;
 	}
+	private static   String useaes;//="FHhPatHL4DF8link";
+	@Value("${useaes}")
+	public  void setUseaes(String useaes)
+	{
+		this.useaes=useaes;
+	}
+
 
 	public static String encryptAES(String encryptData) {
 		return encryptAES(encryptData,key);
@@ -60,12 +67,15 @@ public class AESCrypt {
         return new String(Base64.encodeBase64(encrypt)); 
     }
 	public static String decryptAES(String encryptData) {
-
-		StringBuilder sb=new StringBuilder("[解密前：]" + encryptData);
-		String str=decryptAES(encryptData,key);
-		sb.append("[解密后：]" + str);
-		logger.info(sb.toString());
-		return str;
+if(useaes.equals("true")) {
+	StringBuilder sb = new StringBuilder("[解密前：]" + encryptData);
+	String str = decryptAES(encryptData, key);
+	sb.append("[解密后：]" + str);
+	logger.info(sb.toString());
+	return str;
+}
+else
+	return  encryptData;
 	}
 
 	public static ResultData decryptAESResult(String encryptData) {

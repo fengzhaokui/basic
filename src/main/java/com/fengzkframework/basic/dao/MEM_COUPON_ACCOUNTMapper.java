@@ -15,6 +15,8 @@ public interface MEM_COUPON_ACCOUNTMapper {
     MEM_COUPON_ACCOUNT selectByPrimaryKey(MEM_COUPON_ACCOUNTKey key);
     MEM_COUPON_ACCOUNT selectBycode(String key);
 
+    Double selectByyhqid(long yhqid);
+
     int updateByPrimaryKeySelective(MEM_COUPON_ACCOUNT record);
 
     int updateByPrimaryKey(MEM_COUPON_ACCOUNT record);

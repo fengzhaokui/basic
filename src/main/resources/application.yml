@@ -18,6 +18,7 @@ dyurl: "http://gw.api.taobao.com/router/rest"
 dySmsTemplateCode: "SMS_124465038"
 #aes加解密密钥
 aeskey: "FHhPatHL4DF8link"
+useaes: "true"
 #redis 数据库
 redishost: 192.168.6.43
 

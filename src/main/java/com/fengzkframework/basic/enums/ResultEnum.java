@@ -27,6 +27,7 @@ public enum ResultEnum {
     COUPONNOCANUSE("21", "优惠券不是该店铺不能使用"),
     USEDCOUPONFAIL("22", "用券失败"),
     SETSHUSERNAMEFAIL("23", "设置用户名失败"),
+    SHUSERSTATUSFAIL("24", "该用户不许消券"),
     UNKNOWERROR("100", "未知错误"),
     NODATA("99", "没有数据"),
 

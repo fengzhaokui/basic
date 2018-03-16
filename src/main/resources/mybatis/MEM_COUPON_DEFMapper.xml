@@ -32,6 +32,12 @@
     from MEM_COUPON_DEF
     where YHQID = #{yhqid,jdbcType=DECIMAL}
   </select>
+  <select id="selectByshopid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MEM_COUPON_DEF
+    where SHOPID = #{shopid,jdbcType=DECIMAL}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from MEM_COUPON_DEF
     where YHQID = #{yhqid,jdbcType=DECIMAL}

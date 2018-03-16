@@ -26,6 +26,12 @@
       and JSRQ = #{jsrq,jdbcType=TIMESTAMP}
       and CODE = #{code,jdbcType=VARCHAR}
   </select>
+  <select id="selectByyhqid" parameterType="java.lang.Long" resultType="java.lang.Double">
+    select
+    SUM (AMT)
+    from MEM_COUPON_ACCOUNT
+    where  YHQID = #{yhqid,jdbcType=DECIMAL}
+  </select>
   <select id="selectBycode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
