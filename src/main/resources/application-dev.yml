@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
   #192.168.28.239:81
 wxserviceurl: "http://210.14.129.41:81/xbapi/weixin/"
 msserviceurl: "http://210.14.129.41:8080/msxfInterface2/"

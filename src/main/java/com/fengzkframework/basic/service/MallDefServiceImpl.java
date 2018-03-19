@@ -19,7 +19,7 @@ public class MallDefServiceImpl {
     @Autowired
     CITYDEFMapper citydefMapper;
 
-   public MALLDEF selectBycode(Integer code)
+   public MALLDEF selectBycode(String code)
    {
        return malldefMapper.selectBycode(code);
 

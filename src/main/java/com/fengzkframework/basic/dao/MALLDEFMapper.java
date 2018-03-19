@@ -14,7 +14,7 @@ public interface MALLDEFMapper {
 
     MALLDEF selectByPrimaryKey(Integer id);
 
-    MALLDEF selectBycode(Integer code);
+    MALLDEF selectBycode(String code);
 
     List<MALLDEF> selectByytandcity(MALLDEF def);
 

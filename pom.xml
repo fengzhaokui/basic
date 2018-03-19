@@ -5,7 +5,7 @@
 
 	<groupId>com.fengzkframework</groupId>
 	<artifactId>basic</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>xbjhapi</version>
 	<packaging>war</packaging>
 
 	<name>basic</name>

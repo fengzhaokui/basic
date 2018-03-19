@@ -122,7 +122,7 @@ public  class  Realmoneydata
             data.setSkfs(String.valueOf(skfs));
             key.setSkfs(skfs);
             key.setDatenow(new Date());
-            MALLDEF malldef = mallDefService.selectBycode(mallcode);
+            MALLDEF malldef = mallDefService.selectBycode(String.valueOf(mallcode));
             //SKT skt = sktMapper.selectByPrimaryKey(sktno);
             if (malldef != null) {
                 key.setMdid(malldef.getId());

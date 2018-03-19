@@ -57,7 +57,7 @@ public class PayService {
         Map<String,String> map=new HashMap<String,String>();
         map.put("openId",indata.getOpenid());
         map.put("hyId",memBaseinfo.getHyid().toString());
-       MALLDEF malldef= mallDefService.selectBycode(Integer.valueOf(indata.getMallcode()));
+       MALLDEF malldef= mallDefService.selectBycode(indata.getMallcode());
        if(malldef==null)
        {
            logger.info("马上支付门店不存在");
